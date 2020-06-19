@@ -4,3 +4,9 @@
 *.iml
 
 .DS_Store
+
+/Config.yml
+
+/Data.yml
+
+\target/

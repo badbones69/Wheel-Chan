@@ -1,0 +1,77 @@
+Token: ''
+Messages:
+  #    Options:
+  #      Title: ''
+  #      Title-URL: ''
+  #      Author: ''
+  #      Author-URL: ''
+  #      Image-URL: ''
+  #      Thumbnail-URL: ''
+  #      Description: {}
+  #      Embed-Color: ''
+  #      Footer: ''
+  #      Footer-URL: ''
+  Reload:
+    Embed-Color: 'green'
+    Description:
+      - 'Woow, just got all daisy there for a second, but I feel fine now.'
+      - 'Might head to the Nurse''s office if it happens again.'
+  Add-Senpie:
+    Embed-Color: 'Green'
+    Description:
+      - 'Oh! Welcome %senpie% Senpie!'
+      - 'I can''t wait to see the cool cards you will win. :happy:'
+  Add-Senpie-Description:
+    Embed-Color: 'Red'
+    Description:
+      - 'Oops silly Senpie that is not how you use the command. :hehe:'
+      - '```!wheel add @NewSenpie```'
+  Remove-Senpie:
+    Embed-Color: 'Green'
+    Description:
+      - ':youoof: Ill miss you Senpie, please make sure to come back. :remcry:'
+  Remove-Senpie-Description:
+    Embed-Color: 'Red'
+    Description:
+      - 'Oops silly Senpie that is not how you use the command. :hehe:'
+      - '```!wheel remove @OldSenpie```'
+  Already-My-Senpie:
+    Embed-Color: 'Red'
+    Description:
+      - 'Your to funny, they can''t be my Senpie... because they already are. :cute:'
+  Not-My-Senpie:
+    Embed-Color: 'Red'
+    Description:
+      - ':think: Seems %senpie% is not my Senpie yet. But I wouldn''t mind having another :heheh:'
+  Add-Command-Channel:
+    Embed-Color: 'Green'
+    Description:
+      - 'So this must be my new class? Hope I get to have LOTS of Senpais that will play with me :kanaHype:'
+  Remove-Command-Channel:
+    Embed-Color: 'Green'
+    Description:
+      - 'Seems class is over for today. Hope to see all my Senpais again. :feelsbad:'
+  Already-Command-Channel:
+    Embed-Color: 'Red'
+    Description:
+      - 'Seems I am in the same class again this year. Hope Senpie is in the same class.'
+      - '*Maybe even sitting next to me again* :toolewd:'
+  Not-Command-Channel:
+    Embed-Color: 'Red'
+    Description:
+      - 'I am not in this class Senpie. Remember I am in the same as you. :nekolaugh:'
+  List-Senpais:
+    Embed-Color: 'Green'
+    Description:
+      - 'Here is a list of my current Senpais.'
+      - ''
+      - '%senpais%'
+      - '*Hope I get more Senpais soon.* :teriwoke:'
+  Spin-Wheel:
+    Embed-Color: 'magenta'
+    Thumbnail-URL: 'https://i.imgur.com/zqXv6Ce.gif'
+    Title: 'Time to spin the wheel :grin:'
+    Description:
+      - 'It seems the winner of this wheel is %senpie%'
+    Footer:
+      - 'Congratulations senpie enjoy your new card <3'
