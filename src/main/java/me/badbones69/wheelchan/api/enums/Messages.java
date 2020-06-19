@@ -18,11 +18,20 @@ public enum Messages {
     REMOVE_SENPIE_DESCRIPTION("Remove-Senpie-Description"),
     ALREADY_MY_SENPIE("Already-My-Senpie"),
     NOT_MY_SENPIE("Not-My-Senpie"),
+    ADD_SENSEI("Add-Sensei"),
+    ADD_SENSEI_DESCRIPTION("Add-Sensei-Description"),
+    REMOVE_SENSEI("Remove-Sensei"),
+    REMOVE_SENSEI_DESCRIPTION("Remove-Sensei-Description"),
+    ALREADY_MY_SENSEI("Already-My-Sensei"),
+    NOT_MY_SENSEI("Not-My-Sensei"),
+    NO_PERMISSION("No-Permission"),
+    CLEAR_SENPAIS("Clear-Senpais"),
     ADD_COMMAND_CHANNEL("Add-Command-Channel"),
     REMOVE_COMMAND_CHANNEL("Remove-Command-Channel"),
     ALREADY_COMMAND_CHANNEL("Already-Command-Channel"),
     NOT_COMMAND_CHANNEL("Not-Command-Channel"),
     LIST_SENPAIS("List-Senpais"),
+    LIST_SENSEIS("List-Senseis"),
     SPIN_WHEEL("Spin-Wheel");
     
     private String path;

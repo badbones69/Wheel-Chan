@@ -13,11 +13,15 @@ public class AddChannelCommand {
     public static void runCommand(MessageReceivedEvent e) {
         MessageChannel channel = e.getChannel();
         EmbedBuilder embed;
-        if (!wheelChan.isCommandChannel(channel)) {
-            wheelChan.addCommandChannel(channel);
-            embed = Messages.ADD_COMMAND_CHANNEL.getMessage("%channel%", "<#" + channel.getId() + ">");
+        if (wheelChan.isSensei(e.getAuthor(), e.getGuild())) {
+            if (!wheelChan.isCommandChannel(channel)) {
+                wheelChan.addCommandChannel(channel);
+                embed = Messages.ADD_COMMAND_CHANNEL.getMessage("%channel%", "<#" + channel.getId() + ">");
+            } else {
+                embed = Messages.ALREADY_COMMAND_CHANNEL.getMessage("%channel%", "<#" + channel.getId() + ">");
+            }
         } else {
-            embed = Messages.ALREADY_COMMAND_CHANNEL.getMessage("%channel%", "<#" + channel.getId() + ">");
+            embed = Messages.NO_PERMISSION.getMessage();
         }
         e.getChannel().sendMessage(embed.build()).complete();
     }

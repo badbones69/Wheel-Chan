@@ -2,6 +2,7 @@ package me.badbones69.wheelchan.commands;
 
 import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.enums.Messages;
+import me.badbones69.wheelchan.api.objects.Senpie;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class ListSenpaisCommand {
     
     private static List<String> getSenpieList() {
         List<String> senpais = new ArrayList<>();
-        for (String senpieName : wheelChan.getSenpieNames()) {
-            senpais.add("- **" + senpieName + "**");
+        for (Senpie senpie : wheelChan.getSenpais()) {
+            senpais.add("- " + senpie.getUser().getAsMention());
         }
         return senpais;
     }

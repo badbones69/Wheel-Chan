@@ -19,7 +19,9 @@ Messages:
   Add-Senpie:
     Embed-Color: 'Green'
     Description:
-      - 'Oh! Welcome %senpie% Senpie!'
+      - 'Oh! Welcome new Senpais!'
+      - ''
+      - '%senpais%'
       - 'I can''t wait to see the cool cards you will win. :happy:'
   Add-Senpie-Description:
     Embed-Color: 'Red'
@@ -43,6 +45,42 @@ Messages:
     Embed-Color: 'Red'
     Description:
       - ':think: Seems %senpie% is not my Senpie yet. But I wouldn''t mind having another :heheh:'
+  Add-Sensei:
+    Embed-Color: 'Green'
+    Description:
+      - 'Oh! Welcome new Sensei!'
+      - ''
+      - '%senseis%'
+  Add-Sensei-Description:
+    Embed-Color: 'Red'
+    Description:
+      - 'Oops silly Sensei that is not how you use the command. :hehe:'
+      - '```!wheel addsensei @NewSensei```'
+  Remove-Sensei:
+    Embed-Color: 'Green'
+    Description:
+      - ':youoof: Ill miss you Sensei, please make sure to come back. :remcry:'
+  Remove-Sensei-Description:
+    Embed-Color: 'Red'
+    Description:
+      - 'Oops silly Sensei that is not how you use the command. :hehe:'
+      - '```!wheel removesensei @OldSensei```'
+  Already-My-Sensei:
+    Embed-Color: 'Red'
+    Description:
+      - 'Your to funny, they can''t be my Senseis... because they already are. :cute:'
+  Not-My-Senseis:
+    Embed-Color: 'Red'
+    Description:
+      - ':think: Seems %sensei% is not my Sensei yet. But I wouldn''t mind having another :heheh:'
+  No-Permission:
+    Embed-Color: 'Red'
+    Description:
+      - ':think: Seems your not my Sensei. Sorry but try again when you are.'
+  Clear-Senpais:
+    Embed-Color: 'Gray'
+    Description:
+      - 'I am very sad to see all my Senpais leave but I will never forget everyone :sob:'
   Add-Command-Channel:
     Embed-Color: 'Green'
     Description:
@@ -62,11 +100,15 @@ Messages:
       - 'I am not in this class Senpie. Remember I am in the same as you. :nekolaugh:'
   List-Senpais:
     Embed-Color: 'Green'
+    Title: 'Here is a list of my current Senpais.'
     Description:
-      - 'Here is a list of my current Senpais.'
-      - ''
       - '%senpais%'
       - '*Hope I get more Senpais soon.* :teriwoke:'
+  List-Senseis:
+    Embed-Color: 'Green'
+    Title: 'Here is a list of my current Senseis.'
+    Description:
+      - '%senseis%'
   Spin-Wheel:
     Embed-Color: 'magenta'
     Thumbnail-URL: 'https://i.imgur.com/zqXv6Ce.gif'

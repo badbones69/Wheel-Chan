@@ -32,29 +32,61 @@ public class CommandListener extends ListenerAdapter {
                             ReloadCommand.runCommand(e);
                         }
                         return;
+                    case "s":
                     case "spin":
                         if (isCommandChannel) {
                             SpinCommand.runCommand(e);
                         }
                         return;
+                    case "l":
                     case "list":
                         if (isCommandChannel) {
                             ListSenpaisCommand.runCommand(e);
                         }
                         return;
+                    case "ls":
+                    case "listsensei":
+                    case "listsenseis":
+                        if (isCommandChannel) {
+                            ListSenseisCommand.runCommand(e);
+                        }
+                        return;
+                    case "c":
+                    case "clear":
+                    case "removeall":
+                        if (isCommandChannel) {
+                            ClearCommand.runCommand(e);
+                        }
+                        return;
+                    case "as":
+                    case "addsensei":
+                        if (isCommandChannel) {
+                            AddSenseiCommand.runCommand(e);
+                        }
+                        return;
+                    case "rs":
+                    case "removesensei":
+                        if (isCommandChannel) {
+                            RemoveSenseiCommand.runCommand(e);
+                        }
+                        return;
+                    case "a":
                     case "add":
                         if (isCommandChannel) {
                             AddSenpieCommand.runCommand(e);
                         }
                         return;
+                    case "r":
                     case "remove":
                         if (isCommandChannel) {
                             RemoveSenpieCommand.runCommand(e);
                         }
                         return;
+                    case "ac":
                     case "addchannel":
                         AddChannelCommand.runCommand(e);
                         return;
+                    case "rc":
                     case "removechannel":
                         RemoveChannelCommand.runCommand(e);
                         return;

@@ -7,22 +7,22 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class RemoveSenpieCommand {
+public class RemoveSenseiCommand {
     
     private static WheelChan wheelChan = WheelChan.getInstance();
     
     public static void runCommand(MessageReceivedEvent e) {
         User user = e.getAuthor();
         Message message = e.getMessage();
-        EmbedBuilder embed = Messages.REMOVE_SENPIE_DESCRIPTION.getMessage("%senpie%", user.getAsMention());
+        EmbedBuilder embed = Messages.REMOVE_SENSEI_DESCRIPTION.getMessage("%sensei%", user.getAsMention());
         if (wheelChan.isSensei(user, e.getGuild())) {
             if (!message.getMentionedUsers().isEmpty()) {
-                User oldSenpie = message.getMentionedUsers().get(0);
-                if (wheelChan.isSenpie(oldSenpie)) {
-                    wheelChan.removeSenpie(oldSenpie);
-                    embed = Messages.REMOVE_SENPIE.getMessage("%senpie%", oldSenpie.getAsMention());
+                User oldSensei = message.getMentionedUsers().get(0);
+                if (wheelChan.isSensei(oldSensei, e.getGuild())) {
+                    wheelChan.removeSensei(oldSensei);
+                    embed = Messages.REMOVE_SENSEI.getMessage("%sensei%", oldSensei.getAsMention());
                 } else {
-                    embed = Messages.NOT_MY_SENPIE.getMessage("%senpie%", oldSenpie.getAsMention());
+                    embed = Messages.NOT_MY_SENSEI.getMessage("%sensei%", oldSensei.getAsMention());
                 }
             }
         } else {
