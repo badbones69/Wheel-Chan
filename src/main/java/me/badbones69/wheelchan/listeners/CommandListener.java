@@ -28,7 +28,9 @@ public class CommandListener extends ListenerAdapter {
             if (!subCommand.isEmpty()) {
                 switch (subCommand.toLowerCase()) {
                     case "help":
-                        HelpCommand.runCommand(e);
+                        if (isCommandChannel) {
+                            HelpCommand.runCommand(e);
+                        }
                         return;
                     case "reload":
                         if (isCommandChannel) {
