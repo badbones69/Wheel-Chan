@@ -13,6 +13,7 @@ Messages:
   #      Footer-URL: ''
   Reload:
     Embed-Color: 'green'
+    Footer: 'All messages have been reloaded'
     Description:
       - 'Woow, just got all daisy there for a second, but I feel fine now.'
       - 'Might head to the Nurse''s office if it happens again.'
@@ -25,6 +26,7 @@ Messages:
       - 'I can''t wait to see the cool cards you will win. :happy:'
   Add-Senpie-Description:
     Embed-Color: 'Red'
+    Footer: 'You used the command incorrectly'
     Description:
       - 'Oops silly Senpie that is not how you use the command. :hehe:'
       - '```!wheel add @NewSenpie```'
@@ -34,15 +36,18 @@ Messages:
       - ':youoof: Ill miss you Senpie, please make sure to come back. :remcry:'
   Remove-Senpie-Description:
     Embed-Color: 'Red'
+    Footer: 'You used the command incorrectly'
     Description:
       - 'Oops silly Senpie that is not how you use the command. :hehe:'
       - '```!wheel remove @OldSenpie```'
   Already-My-Senpie:
     Embed-Color: 'Red'
+    Footer: 'That user is already a Senpie'
     Description:
       - 'Your to funny, they can''t be my Senpie... because they already are. :cute:'
   Not-My-Senpie:
     Embed-Color: 'Red'
+    Footer: 'That user is not yet a Senpie'
     Description:
       - ':think: Seems %senpie% is not my Senpie yet. But I wouldn''t mind having another :heheh:'
   Add-Sensei:
@@ -53,6 +58,7 @@ Messages:
       - '%senseis%'
   Add-Sensei-Description:
     Embed-Color: 'Red'
+    Footer: 'You used the command incorrectly.'
     Description:
       - 'Oops silly Sensei that is not how you use the command. :hehe:'
       - '```!wheel addsensei @NewSensei```'
@@ -62,40 +68,49 @@ Messages:
       - ':youoof: Ill miss you Sensei, please make sure to come back. :remcry:'
   Remove-Sensei-Description:
     Embed-Color: 'Red'
+    Footer: 'You used the command incorrectly.'
     Description:
       - 'Oops silly Sensei that is not how you use the command. :hehe:'
       - '```!wheel removesensei @OldSensei```'
   Already-My-Sensei:
     Embed-Color: 'Red'
+    Footer: 'That user is already a Sensei'
     Description:
       - 'Your to funny, they can''t be my Senseis... because they already are. :cute:'
   Not-My-Senseis:
     Embed-Color: 'Red'
+    Footer: 'That user is not a Sensei'
     Description:
       - ':think: Seems %sensei% is not my Sensei yet. But I wouldn''t mind having another :heheh:'
   No-Permission:
     Embed-Color: 'Red'
+    Footer: 'You do not have access to this command'
     Description:
       - ':think: Seems your not my Sensei. Sorry but try again when you are.'
   Clear-Senpais:
     Embed-Color: 'Gray'
+    Footer: 'All Senpais have been removed from the list'
     Description:
       - 'I am very sad to see all my Senpais leave but I will never forget everyone :sob:'
   Add-Command-Channel:
     Embed-Color: 'Green'
+    Footer: 'Wheel-Chan is now allowed to take commands in this channel'
     Description:
       - 'So this must be my new class? Hope I get to have LOTS of Senpais that will play with me :kanaHype:'
   Remove-Command-Channel:
     Embed-Color: 'Green'
+    Footer: 'Wheel-Chan is no longer able to take commands in this channel'
     Description:
       - 'Seems class is over for today. Hope to see all my Senpais again. :feelsbad:'
   Already-Command-Channel:
     Embed-Color: 'Red'
+    Footer: 'Wheel-Chan already has access to this channel'
     Description:
       - 'Seems I am in the same class again this year. Hope Senpie is in the same class.'
       - '*Maybe even sitting next to me again* :toolewd:'
   Not-Command-Channel:
     Embed-Color: 'Red'
+    Footer: 'Wheel-Chan is not allowed in this channel'
     Description:
       - 'I am not in this class Senpie. Remember I am in the same as you. :nekolaugh:'
   List-Senpais:
@@ -117,3 +132,24 @@ Messages:
       - 'It seems the winner of this wheel is %senpie%'
     Footer:
       - 'Congratulations senpie enjoy your new card <3'
+  Help:
+    Embed-Color: 'blue'
+    Title: 'Here are a list of all my commands Senpie :cute:'
+    Footer: 'List of all available commands.'
+    Description:
+      - ':small_orange_diamond: **__Commands:__**'
+      - ':small_blue_diamond:  **/w spin -** Spin the wheel and pick a random Senpie'
+      - ':small_blue_diamond:  **/w list -** List all current Senpais'
+      - ''
+      - ':small_orange_diamond: **__Sensei Commands:__**'
+      - ':small_blue_diamond:  **/w listsensei -** List all current Senseis'
+      - ':small_blue_diamond:  **/w add @NewSenpie -** Add a new Senpie'
+      - ':small_blue_diamond:  **/w remove @OldSenpie -** Remove a Senpie'
+      - ':small_blue_diamond:  **/w clear -** Clear all Senpais'
+      - ':small_blue_diamond:  **/w addsensei @NewSensei -** Add a new Sensei'
+      - ':small_blue_diamond:  **/w removesensei @OldSensei -** Remove a Sensei'
+      - ':small_blue_diamond:  **/w addchannel -** Set a channel where Wheel-Chan can be used'
+      - ':small_blue_diamond:  **/w removechannel -** Remove a channel Wheel-Chan used to use'
+      - ''
+      - ':small_orange_diamond: **__Command Alases:__**'
+      - ':small_blue_diamond:  **wheel**, **w**, **spin**, **s**'

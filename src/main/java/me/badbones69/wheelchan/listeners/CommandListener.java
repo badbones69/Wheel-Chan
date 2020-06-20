@@ -15,7 +15,7 @@ import java.util.List;
 public class CommandListener extends ListenerAdapter {
     
     private WheelChan wheelChan = WheelChan.getInstance();
-    private List<String> aliases = Arrays.asList("wheelchan", "wc", "wheel", "w");
+    private List<String> alases = Arrays.asList("wheelchan", "wc", "wheel", "w");
     
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
@@ -27,6 +27,9 @@ public class CommandListener extends ListenerAdapter {
             String subCommand = getSubCommand(message);
             if (!subCommand.isEmpty()) {
                 switch (subCommand.toLowerCase()) {
+                    case "help":
+                        HelpCommand.runCommand(e);
+                        return;
                     case "reload":
                         if (isCommandChannel) {
                             ReloadCommand.runCommand(e);
@@ -89,15 +92,13 @@ public class CommandListener extends ListenerAdapter {
                     case "rc":
                     case "removechannel":
                         RemoveChannelCommand.runCommand(e);
-                        return;
                 }
             }
-            //listCommand
         }
     }
     
     private boolean isCommand(Message message) {
-        for (String aliase : aliases) {
+        for (String aliase : alases) {
             if (message.getContentDisplay().toLowerCase().startsWith("!" + aliase + " ")) {
                 return true;
             }

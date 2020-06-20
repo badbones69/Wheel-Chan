@@ -32,7 +32,8 @@ public enum Messages {
     NOT_COMMAND_CHANNEL("Not-Command-Channel"),
     LIST_SENPAIS("List-Senpais"),
     LIST_SENSEIS("List-Senseis"),
-    SPIN_WHEEL("Spin-Wheel");
+    SPIN_WHEEL("Spin-Wheel"),
+    HELP("Help");
     
     private String path;
     private static Map<Messages, EmbedMessage> messageCache = new HashMap<>();
