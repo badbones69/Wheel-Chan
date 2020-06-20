@@ -3,6 +3,7 @@ package me.badbones69.wheelchan.commands;
 import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.enums.Messages;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,19 +15,20 @@ public class RemoveSenseiCommand {
     public static void runCommand(MessageReceivedEvent e) {
         User user = e.getAuthor();
         Message message = e.getMessage();
-        EmbedBuilder embed = Messages.REMOVE_SENSEI_DESCRIPTION.getMessage("%sensei%", user.getAsMention());
+        Guild guild = e.getGuild();
+        EmbedBuilder embed = Messages.REMOVE_SENSEI_DESCRIPTION.getMessage(guild, "%sensei%", user.getAsMention());
         if (wheelChan.isSensei(user, e.getGuild())) {
             if (!message.getMentionedUsers().isEmpty()) {
                 User oldSensei = message.getMentionedUsers().get(0);
                 if (wheelChan.isSensei(oldSensei, e.getGuild())) {
                     wheelChan.removeSensei(oldSensei);
-                    embed = Messages.REMOVE_SENSEI.getMessage("%sensei%", oldSensei.getAsMention());
+                    embed = Messages.REMOVE_SENSEI.getMessage(guild, "%sensei%", oldSensei.getAsMention());
                 } else {
-                    embed = Messages.NOT_MY_SENSEI.getMessage("%sensei%", oldSensei.getAsMention());
+                    embed = Messages.NOT_MY_SENSEI.getMessage(guild, "%sensei%", oldSensei.getAsMention());
                 }
             }
         } else {
-            embed = Messages.NO_PERMISSION.getMessage();
+            embed = Messages.NO_PERMISSION.getMessage(guild);
         }
         e.getChannel().sendMessage(embed.build()).complete();
     }

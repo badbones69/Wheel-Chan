@@ -18,19 +18,20 @@ public class AddSenseiCommand {
     public static void runCommand(MessageReceivedEvent e) {
         User user = e.getAuthor();
         Message message = e.getMessage();
-        EmbedBuilder embed = Messages.ADD_SENSEI_DESCRIPTION.getMessage("%sensei%", user.getAsMention());
+        Guild guild = e.getGuild();
+        EmbedBuilder embed = Messages.ADD_SENSEI_DESCRIPTION.getMessage(guild, "%sensei%", user.getAsMention());
         if (wheelChan.isSensei(user, e.getGuild())) {
             if (!message.getMentionedUsers().isEmpty()) {
                 List<User> newSenseis = getNewSenseiList(message.getMentionedUsers(), e.getGuild());
                 if (!newSenseis.isEmpty()) {
                     wheelChan.addSenseis(newSenseis);
-                    embed = Messages.ADD_SENSEI.getMessage("%senseis%", getSenseiList(newSenseis));
+                    embed = Messages.ADD_SENSEI.getMessage(guild, "%senseis%", getSenseiList(newSenseis));
                 } else {
-                    embed = Messages.ALREADY_MY_SENSEI.getMessage("%senseis%", getSenseiList(message.getMentionedUsers()));
+                    embed = Messages.ALREADY_MY_SENSEI.getMessage(guild, "%senseis%", getSenseiList(message.getMentionedUsers()));
                 }
             }
         } else {
-            embed = Messages.NO_PERMISSION.getMessage();
+            embed = Messages.NO_PERMISSION.getMessage(guild);
         }
         e.getChannel().sendMessage(embed.build()).complete();
     }

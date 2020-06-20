@@ -13,7 +13,7 @@ public class ListSenseisCommand {
     private static WheelChan wheelChan = WheelChan.getInstance();
     
     public static void runCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(Messages.LIST_SENSEIS.getMessage("%senseis%", getSenseiList()).build()).complete();
+        e.getChannel().sendMessage(Messages.LIST_SENSEIS.getMessage(e.getGuild(), "%senseis%", getSenseiList()).build()).complete();
     }
     
     private static List<String> getSenseiList() {

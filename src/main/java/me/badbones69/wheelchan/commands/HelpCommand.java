@@ -9,7 +9,7 @@ public class HelpCommand {
     private static WheelChan wheelChan = WheelChan.getInstance();
     
     public static void runCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(Messages.HELP.getMessage().build()).complete();
+        e.getChannel().sendMessage(Messages.HELP.getMessage(e.getGuild()).build()).complete();
     }
     
 }

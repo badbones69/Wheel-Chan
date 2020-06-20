@@ -3,6 +3,7 @@ package me.badbones69.wheelchan.api.enums;
 import me.badbones69.wheelchan.api.FileManager.Files;
 import me.badbones69.wheelchan.api.objects.EmbedMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,32 +88,24 @@ public enum Messages {
         return newMessageList;
     }
     
-    public EmbedBuilder getMessage() {
-        return getMessage(true);
+    public EmbedBuilder getMessage(Guild guild) {
+        return getMessage(guild, new HashMap<>());
     }
     
-    public EmbedBuilder getMessage(String placeholder, List<String> replacement) {
+    public EmbedBuilder getMessage(Guild guild, String placeholder, List<String> replacement) {
         HashMap<String, String> placeholders = new HashMap<>();
         placeholders.put(placeholder, convertList(replacement));
-        return getMessage(placeholders, true);
+        return getMessage(guild, placeholders);
     }
     
-    public EmbedBuilder getMessage(String placeholder, String replacement) {
+    public EmbedBuilder getMessage(Guild guild, String placeholder, String replacement) {
         HashMap<String, String> placeholders = new HashMap<>();
         placeholders.put(placeholder, replacement);
-        return getMessage(placeholders, true);
+        return getMessage(guild, placeholders);
     }
     
-    public EmbedBuilder getMessage(Map<String, String> placeholders) {
-        return getMessage(placeholders, true);
-    }
-    
-    private EmbedBuilder getMessage(boolean prefix) {
-        return getMessage(new HashMap<>(), prefix);
-    }
-    
-    private EmbedBuilder getMessage(Map<String, String> placeholders, boolean prefix) {
-        return messageCache.get(this).getEmbedMessage(placeholders);
+    private EmbedBuilder getMessage(Guild guild, Map<String, String> placeholders) {
+        return messageCache.get(this).getEmbedMessage(guild, placeholders);
     }
     
     private boolean exists() {

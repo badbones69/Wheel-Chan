@@ -3,6 +3,8 @@ package me.badbones69.wheelchan.api.objects;
 import me.badbones69.wheelchan.api.FileManager.Files;
 import me.badbones69.wheelchan.api.enums.Messages;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Emote;
+import net.dv8tion.jda.api.entities.Guild;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.awt.*;
@@ -83,30 +85,30 @@ public class EmbedMessage {
         return thumbnailURL;
     }
     
-    public EmbedBuilder getEmbedMessage() {
-        return getEmbedMessage(new HashMap<>());
+    public EmbedBuilder getEmbedMessage(Guild guild) {
+        return getEmbedMessage(guild, new HashMap<>());
     }
     
-    public EmbedBuilder getEmbedMessage(Map<String, String> placeholders) {
+    public EmbedBuilder getEmbedMessage(Guild guild, Map<String, String> placeholders) {
         EmbedBuilder embed = new EmbedBuilder();
         if (embedColor != null) {
             embed.setColor(embedColor);
         }
         if (description != null && !description.isEmpty()) {
-            embed.setDescription(Messages.replacePlaceholders(placeholders, description));
+            embed.setDescription(Messages.replacePlaceholders(placeholders, replaceEmotes(description, guild)));
         }
         if (footer != null && !footer.isEmpty()) {
             if (footerURL != null && !footerURL.isEmpty()) {
-                embed.setFooter(footer, footerURL);
+                embed.setFooter(replaceEmotes(footer, guild), footerURL);
             } else {
-                embed.setFooter(footer);
+                embed.setFooter(replaceEmotes(footer, guild));
             }
         }
         if (title != null && !title.isEmpty()) {
             if (titleURL != null && !titleURL.isEmpty()) {
-                embed.setTitle(title, titleURL);
+                embed.setTitle(replaceEmotes(title, guild), titleURL);
             } else {
-                embed.setTitle(title);
+                embed.setTitle(replaceEmotes(title, guild));
             }
         }
         if (author != null && !author.isEmpty()) {
@@ -123,6 +125,21 @@ public class EmbedMessage {
             embed.setThumbnail(thumbnailURL);
         }
         return embed;
+    }
+    
+    private String replaceEmotes(String message, Guild guild) {
+        if (message.contains(":")) {
+            // - ':emote:'
+            // - 'Hello :emote:'
+            // - ':emote: Hello'
+            // - 'Hello :emote: lol'
+            for (Emote emote : guild.getEmotes()) {
+                if (message.contains(":" + emote.getName().toLowerCase() + ":")) {
+                    message = message.replace(":" + emote.getName().toLowerCase() + ":", emote.getAsMention());
+                }
+            }
+        }
+        return message;
     }
     
     private Color getColor(String color) {

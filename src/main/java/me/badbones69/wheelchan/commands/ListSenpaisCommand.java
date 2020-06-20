@@ -13,7 +13,7 @@ public class ListSenpaisCommand {
     private static WheelChan wheelChan = WheelChan.getInstance();
     
     public static void runCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(Messages.LIST_SENPAIS.getMessage("%senpais%", getSenpieList()).build()).complete();
+        e.getChannel().sendMessage(Messages.LIST_SENPAIS.getMessage(e.getGuild(), "%senpais%", getSenpieList()).build()).complete();
     }
     
     private static List<String> getSenpieList() {

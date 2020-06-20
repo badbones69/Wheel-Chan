@@ -15,7 +15,7 @@ public class SpinCommand {
     
     public static void runCommand(MessageReceivedEvent e) {
         Senpie senpie = getRandomSenpie();
-        e.getChannel().sendMessage(Messages.SPIN_WHEEL.getMessage("%senpie%", senpie.getUser().getAsMention()).build()).complete();
+        e.getChannel().sendMessage(Messages.SPIN_WHEEL.getMessage(e.getGuild(), "%senpie%", senpie.getUser().getAsMention()).build()).complete();
     }
     
     private static Senpie getRandomSenpie() {
