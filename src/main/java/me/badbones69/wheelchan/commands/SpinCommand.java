@@ -2,7 +2,7 @@ package me.badbones69.wheelchan.commands;
 
 import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.enums.Messages;
-import me.badbones69.wheelchan.api.objects.Senpie;
+import me.badbones69.wheelchan.api.objects.Senpai;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.Random;
@@ -14,11 +14,11 @@ public class SpinCommand {
     private static Random random = ThreadLocalRandom.current();
     
     public static void runCommand(MessageReceivedEvent e) {
-        Senpie senpie = getRandomSenpie();
-        e.getChannel().sendMessage(Messages.SPIN_WHEEL.getMessage(e.getGuild(), "%senpie%", senpie.getUser().getAsMention()).build()).complete();
+        Senpai senpai = getRandomSenpai();
+        e.getChannel().sendMessage(Messages.SPIN_WHEEL.getMessage(e.getGuild(), "%senpai%", senpai.getUser().getAsMention()).build()).complete();
     }
     
-    private static Senpie getRandomSenpie() {
+    private static Senpai getRandomSenpai() {
         return wheelChan.getSenpais().get(random.nextInt(wheelChan.getSenpais().size()));
     }
     

@@ -17,39 +17,39 @@ Messages:
     Description:
       - 'Woow, just got all daisy there for a second, but I feel fine now.'
       - 'Might head to the Nurse''s office if it happens again.'
-  Add-Senpie:
+  Add-Senpai:
     Embed-Color: 'Green'
     Description:
       - 'Oh! Welcome new Senpais!'
       - ''
       - '%senpais%'
       - 'I can''t wait to see the cool cards you will win. :happy:'
-  Add-Senpie-Description:
+  Add-Senpai-Description:
     Embed-Color: 'Red'
     Footer: 'You used the command incorrectly'
     Description:
-      - 'Oops silly Senpie that is not how you use the command. :hehe:'
-      - '```!wheel add @NewSenpie```'
-  Remove-Senpie:
+      - 'Oops silly Senpai that is not how you use the command. :hehe:'
+      - '```!wheel add @NewSenpai```'
+  Remove-Senpai:
     Embed-Color: 'Green'
     Description:
-      - ':youoof: Ill miss you Senpie, please make sure to come back. :remcry:'
-  Remove-Senpie-Description:
+      - ':youoof: Ill miss you Senpai, please make sure to come back. :remcry:'
+  Remove-Senpai-Description:
     Embed-Color: 'Red'
     Footer: 'You used the command incorrectly'
     Description:
-      - 'Oops silly Senpie that is not how you use the command. :hehe:'
-      - '```!wheel remove @OldSenpie```'
-  Already-My-Senpie:
+      - 'Oops silly Senpai that is not how you use the command. :hehe:'
+      - '```!wheel remove @OldSenpai```'
+  Already-My-Senpai:
     Embed-Color: 'Red'
-    Footer: 'That user is already a Senpie'
+    Footer: 'That user is already a Senpai'
     Description:
-      - 'Your to funny, they can''t be my Senpie... because they already are. :cute:'
-  Not-My-Senpie:
+      - 'Your to funny, they can''t be my Senpai... because they already are. :cute:'
+  Not-My-Senpai:
     Embed-Color: 'Red'
-    Footer: 'That user is not yet a Senpie'
+    Footer: 'That user is not yet a Senpai'
     Description:
-      - ':think: Seems %senpie% is not my Senpie yet. But I wouldn''t mind having another :heheh:'
+      - ':think: Seems %senpai% is not my Senpai yet. But I wouldn''t mind having another :heheh:'
   Add-Sensei:
     Embed-Color: 'Green'
     Description:
@@ -106,19 +106,32 @@ Messages:
     Embed-Color: 'Red'
     Footer: 'Wheel-Chan already has access to this channel'
     Description:
-      - 'Seems I am in the same class again this year. Hope Senpie is in the same class.'
+      - 'Seems I am in the same class again this year. Hope Senpai is in the same class.'
       - '*Maybe even sitting next to me again* :toolewd:'
   Not-Command-Channel:
     Embed-Color: 'Red'
     Footer: 'Wheel-Chan is not allowed in this channel'
     Description:
-      - 'I am not in this class Senpie. Remember I am in the same as you. :nekolaugh:'
+      - 'I am not in this class Senpai. Remember I am in the same as you. :nekolaugh:'
+  Linked-Cooldown:
+    Embed-Color: 'cyan'
+    Title: 'Successfully updated the cooldown for %senpai%'
+    Description:
+      - 'Next redeem pack: %nextredeem%'
+  Failed-Linked-Cooldown:
+    Embed-Color: 'red'
+    Title: 'Failed to find pack spawn message :wot:'
+    Footer: 'No message was found for that ID.'
   List-Senpais:
     Embed-Color: 'Green'
-    Title: 'Here is a list of my current Senpais.'
+    Title: 'Here is a list of my current Senpais :teriwoke:'
     Description:
       - '%senpais%'
-      - '*Hope I get more Senpais soon.* :teriwoke:'
+      - ''
+      - 'Legend:'
+      - ':agree: Spawn Pack is available.'
+      - ':disagree: Spawn Pack still in cooldown.'
+      - ':Bully: Spawn Pack cooldown unknown.'
   List-Senseis:
     Embed-Color: 'Green'
     Title: 'Here is a list of my current Senseis.'
@@ -129,22 +142,22 @@ Messages:
     Thumbnail-URL: 'https://i.imgur.com/zqXv6Ce.gif'
     Title: 'Time to spin the wheel :grin:'
     Description:
-      - 'It seems the winner of this wheel is %senpie%'
+      - 'It seems the winner of this wheel is %senpai%'
     Footer:
-      - 'Congratulations senpie enjoy your new card <3'
+      - 'Congratulations senpai enjoy your new card <3'
   Help:
     Embed-Color: 'blue'
-    Title: 'Here are a list of all my commands Senpie :cute:'
+    Title: 'Here are a list of all my commands Senpai :cute:'
     Footer: 'List of all available commands.'
     Description:
       - ':small_orange_diamond: **__Commands:__**'
-      - ':small_blue_diamond:  **/w spin -** Spin the wheel and pick a random Senpie'
+      - ':small_blue_diamond:  **/w spin -** Spin the wheel and pick a random Senpai'
       - ':small_blue_diamond:  **/w list -** List all current Senpais'
       - ''
       - ':small_orange_diamond: **__Sensei Commands:__**'
       - ':small_blue_diamond:  **/w listsensei -** List all current Senseis'
-      - ':small_blue_diamond:  **/w add @NewSenpie -** Add a new Senpie'
-      - ':small_blue_diamond:  **/w remove @OldSenpie -** Remove a Senpie'
+      - ':small_blue_diamond:  **/w add @NewSenpai -** Add a new Senpai'
+      - ':small_blue_diamond:  **/w remove @OldSenpai -** Remove a Senpai'
       - ':small_blue_diamond:  **/w clear -** Clear all Senpais'
       - ':small_blue_diamond:  **/w addsensei @NewSensei -** Add a new Sensei'
       - ':small_blue_diamond:  **/w removesensei @OldSensei -** Remove a Sensei'

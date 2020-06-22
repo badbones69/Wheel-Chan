@@ -13,12 +13,12 @@ import java.util.Map;
 public enum Messages {
     
     RELOAD("Reload"),
-    ADD_SENPIE("Add-Senpie"),
-    ADD_SENPIE_DESCRIPTION("Add-Senpie-Description"),
-    REMOVE_SENPIE("Remove-Senpie"),
-    REMOVE_SENPIE_DESCRIPTION("Remove-Senpie-Description"),
-    ALREADY_MY_SENPIE("Already-My-Senpie"),
-    NOT_MY_SENPIE("Not-My-Senpie"),
+    ADD_SENPIE("Add-Senpai"),
+    ADD_SENPIE_DESCRIPTION("Add-Senpai-Description"),
+    REMOVE_SENPIE("Remove-Senpai"),
+    REMOVE_SENPIE_DESCRIPTION("Remove-Senpai-Description"),
+    ALREADY_MY_SENPIE("Already-My-Senpai"),
+    NOT_MY_SENPIE("Not-My-Senpai"),
     ADD_SENSEI("Add-Sensei"),
     ADD_SENSEI_DESCRIPTION("Add-Sensei-Description"),
     REMOVE_SENSEI("Remove-Sensei"),
@@ -31,6 +31,8 @@ public enum Messages {
     REMOVE_COMMAND_CHANNEL("Remove-Command-Channel"),
     ALREADY_COMMAND_CHANNEL("Already-Command-Channel"),
     NOT_COMMAND_CHANNEL("Not-Command-Channel"),
+    LINKED_COOLDOWN("Linked-Cooldown"),
+    FAILED_LINKED_COOLDOWN("Failed-Linked-Cooldown"),
     LIST_SENPAIS("List-Senpais"),
     LIST_SENSEIS("List-Senseis"),
     SPIN_WHEEL("Spin-Wheel"),
@@ -104,7 +106,7 @@ public enum Messages {
         return getMessage(guild, placeholders);
     }
     
-    private EmbedBuilder getMessage(Guild guild, Map<String, String> placeholders) {
+    public EmbedBuilder getMessage(Guild guild, Map<String, String> placeholders) {
         return messageCache.get(this).getEmbedMessage(guild, placeholders);
     }
     

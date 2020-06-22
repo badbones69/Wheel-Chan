@@ -2,9 +2,10 @@ package me.badbones69.wheelchan.api;
 
 import me.badbones69.wheelchan.api.FileManager.Files;
 import me.badbones69.wheelchan.api.enums.Messages;
-import me.badbones69.wheelchan.api.objects.Senpie;
+import me.badbones69.wheelchan.api.objects.Senpai;
 import me.badbones69.wheelchan.api.objects.Sensei;
 import me.badbones69.wheelchan.listeners.CommandListener;
+import me.badbones69.wheelchan.listeners.SpawnPackListener;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -22,7 +23,7 @@ public class WheelChan {
     private static WheelChan instance = new WheelChan();
     private JDA jda;
     private List<Sensei> senseis = new ArrayList<>();
-    private List<Senpie> senpais = new ArrayList<>();
+    private List<Senpai> senpais = new ArrayList<>();
     private List<String> commandChannels = new ArrayList<>();
     
     public static WheelChan getInstance() {
@@ -37,7 +38,13 @@ public class WheelChan {
         commandChannels.clear();
         FileConfiguration data = Files.DATA.getFile();
         data.getStringList("Senseis").forEach(id -> senseis.add(new Sensei(id)));
-        data.getStringList("Senpais").forEach(id -> senpais.add(new Senpie(id)));
+        if (data.contains("Senpais")) {
+            if (data.getStringList("Senpais").isEmpty()) {
+                for (String senpaiID : data.getConfigurationSection("Senpais").getKeys(false)) {
+                    senpais.add(new Senpai(senpaiID, data.getLong("Senpais." + senpaiID + ".Cooldown")));
+                }
+            }
+        }
         commandChannels.addAll(data.getStringList("Command-Channels"));
     }
     
@@ -109,16 +116,16 @@ public class WheelChan {
         return null;
     }
     
-    public List<Senpie> getSenpais() {
+    public List<Senpai> getSenpais() {
         return senpais;
     }
     
-    public List<String> getSenpieNames() {
-        return senpais.stream().map(senpie -> senpie.getUser().getName()).collect(Collectors.toList());
+    public List<String> getSenpaiNames() {
+        return senpais.stream().map(senpai -> senpai.getUser().getName()).collect(Collectors.toList());
     }
     
-    public List<String> getSenpieIDs() {
-        return senpais.stream().map(Senpie :: getID).collect(Collectors.toList());
+    public List<String> getSenpaiIDs() {
+        return senpais.stream().map(Senpai :: getID).collect(Collectors.toList());
     }
     
     public void clearAllSenpais() {
@@ -126,49 +133,53 @@ public class WheelChan {
         saveData();
     }
     
-    public void addSenpie(User senpie) {
-        addSenpie(senpie.getId());
+    public void addSenpai(User senpai) {
+        addSenpai(senpai.getId());
     }
     
-    public void addSenpais(List<User> senpieList) {
-        boolean newSenpie = false;
-        for (User senpie : senpieList) {
-            if (!isSenpie(senpie)) {
-                senpais.add(new Senpie(senpie.getId()));
-                newSenpie = true;
+    public void addSenpais(List<User> senpaiList) {
+        boolean newSenpai = false;
+        for (User senpai : senpaiList) {
+            if (!isSenpai(senpai)) {
+                senpais.add(new Senpai(senpai.getId()));
+                newSenpai = true;
             }
         }
-        if (newSenpie) {
+        if (newSenpai) {
             saveData();
         }
     }
     
-    public void addSenpie(String senpieID) {
-        senpais.add(new Senpie(senpieID));
+    public void addSenpai(String senpaiID) {
+        senpais.add(new Senpai(senpaiID));
         saveData();
     }
     
-    public void removeSenpie(User senpie) {
-        removeSenpie(senpie.getId());
+    public void removeSenpai(User senpai) {
+        removeSenpai(senpai.getId());
     }
     
-    public void removeSenpie(String senpieID) {
-        senpais.remove(getSenpie(senpieID));
+    public void removeSenpai(String senpaiID) {
+        senpais.remove(getSenpai(senpaiID));
         saveData();
     }
     
-    public boolean isSenpie(User senpie) {
-        return isSenpie(senpie.getId());
+    public boolean isSenpai(User senpai) {
+        return isSenpai(senpai.getId());
     }
     
-    public boolean isSenpie(String senpieID) {
-        return getSenpie(senpieID) != null;
+    public boolean isSenpai(String senpaiID) {
+        return getSenpai(senpaiID) != null;
     }
     
-    public Senpie getSenpie(String senpieID) {
-        for (Senpie senpie : senpais) {
-            if (senpie.getID().equals(senpieID)) {
-                return senpie;
+    public Senpai getSenpai(User senpai) {
+        return getSenpai(senpai.getId());
+    }
+    
+    public Senpai getSenpai(String senpaiID) {
+        for (Senpai senpai : senpais) {
+            if (senpai.getID().equals(senpaiID)) {
+                return senpai;
             }
         }
         return null;
@@ -205,17 +216,38 @@ public class WheelChan {
             try {
                 jda = new JDABuilder(AccountType.BOT)
                 .setToken(Files.CONFIG.getFile().getString("Token"))
-                .addEventListeners(new CommandListener()).build();
+                .addEventListeners(new CommandListener(), new SpawnPackListener()).build();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
     
-    private void saveData() {
+    public void saveSenpais() {
+        FileConfiguration data = Files.DATA.getFile();
+        data.set("Senpais", null);
+        for (Senpai senpai : senpais) {
+            data.set("Senpais." + senpai.getID() + ".Name", senpai.getUser().getName());
+            data.set("Senpais." + senpai.getID() + ".Cooldown", senpai.getSpawnPackCooldown());
+        }
+        Files.DATA.saveFile();
+    }
+    
+    public void saveSenpai(Senpai senpai) {
+        FileConfiguration data = Files.DATA.getFile();
+        data.set("Senpais." + senpai.getID() + ".Name", senpai.getUser().getName());
+        data.set("Senpais." + senpai.getID() + ".Cooldown", senpai.getSpawnPackCooldown());
+        Files.DATA.saveFile();
+    }
+    
+    public void saveData() {
         FileConfiguration data = Files.DATA.getFile();
         data.set("Command-Channels", commandChannels);
-        data.set("Senpais", getSenpieIDs());
+        data.set("Senpais", null);
+        for (Senpai senpai : senpais) {
+            data.set("Senpais." + senpai.getID() + ".Name", senpai.getUser().getName());
+            data.set("Senpais." + senpai.getID() + ".Cooldown", senpai.getSpawnPackCooldown());
+        }
         data.set("Senseis", getSenseiIDs());
         Files.DATA.saveFile();
     }

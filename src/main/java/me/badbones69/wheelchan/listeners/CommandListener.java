@@ -78,13 +78,13 @@ public class CommandListener extends ListenerAdapter {
                     case "a":
                     case "add":
                         if (isCommandChannel) {
-                            AddSenpieCommand.runCommand(e);
+                            AddSenpaiCommand.runCommand(e);
                         }
                         return;
                     case "r":
                     case "remove":
                         if (isCommandChannel) {
-                            RemoveSenpieCommand.runCommand(e);
+                            RemoveSenpaiCommand.runCommand(e);
                         }
                         return;
                     case "ac":
@@ -94,6 +94,13 @@ public class CommandListener extends ListenerAdapter {
                     case "rc":
                     case "removechannel":
                         RemoveChannelCommand.runCommand(e);
+                        return;
+                    case "link":
+                    case "lc":
+                    case "linkcooldown":
+                        if (isCommandChannel) {
+                            LinkCooldownCommand.runCommand(e);
+                        }
                 }
             }
         }

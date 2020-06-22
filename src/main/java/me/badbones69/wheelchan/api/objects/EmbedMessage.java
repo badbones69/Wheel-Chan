@@ -90,25 +90,29 @@ public class EmbedMessage {
     }
     
     public EmbedBuilder getEmbedMessage(Guild guild, Map<String, String> placeholders) {
+        Map<String, String> newPlaceholders = new HashMap<>();
+        for (String placeholder : placeholders.keySet()) {
+            newPlaceholders.put(placeholder, replaceEmotes(placeholders.get(placeholder), guild));
+        }
         EmbedBuilder embed = new EmbedBuilder();
         if (embedColor != null) {
             embed.setColor(embedColor);
         }
         if (description != null && !description.isEmpty()) {
-            embed.setDescription(Messages.replacePlaceholders(placeholders, replaceEmotes(description, guild)));
+            embed.setDescription(Messages.replacePlaceholders(newPlaceholders, replaceEmotes(description, guild)));
         }
         if (footer != null && !footer.isEmpty()) {
             if (footerURL != null && !footerURL.isEmpty()) {
-                embed.setFooter(replaceEmotes(footer, guild), footerURL);
+                embed.setFooter(Messages.replacePlaceholders(newPlaceholders, replaceEmotes(footer, guild)), footerURL);
             } else {
-                embed.setFooter(replaceEmotes(footer, guild));
+                embed.setFooter(Messages.replacePlaceholders(newPlaceholders, replaceEmotes(footer, guild)));
             }
         }
         if (title != null && !title.isEmpty()) {
             if (titleURL != null && !titleURL.isEmpty()) {
-                embed.setTitle(replaceEmotes(title, guild), titleURL);
+                embed.setTitle(Messages.replacePlaceholders(newPlaceholders, replaceEmotes(title, guild)), titleURL);
             } else {
-                embed.setTitle(replaceEmotes(title, guild));
+                embed.setTitle(Messages.replacePlaceholders(newPlaceholders, replaceEmotes(title, guild)));
             }
         }
         if (author != null && !author.isEmpty()) {
@@ -134,8 +138,8 @@ public class EmbedMessage {
             // - ':emote: Hello'
             // - 'Hello :emote: lol'
             for (Emote emote : guild.getEmotes()) {
-                if (message.contains(":" + emote.getName().toLowerCase() + ":")) {
-                    message = message.replace(":" + emote.getName().toLowerCase() + ":", emote.getAsMention());
+                if (message.contains(":" + emote.getName() + ":")) {
+                    message = message.replace(":" + emote.getName() + ":", emote.getAsMention());
                 }
             }
         }
