@@ -14,7 +14,7 @@ public class SpinCommand {
     
     public static void runCommand(MessageReceivedEvent e) {
         Senpai senpai = getRandomSenpai();
-        e.getChannel().sendMessage(Messages.SPIN_WHEEL.getMessage(e.getGuild(), "%senpai%", senpai.getUser().getAsMention()).build()).complete();
+        e.getChannel().sendMessage(Messages.SPIN_WHEEL.getMessage(e.getGuild(), "%senpai%", senpai.getUser().getName()).build()).complete();
     }
     
     public static Senpai getRandomSenpai() {

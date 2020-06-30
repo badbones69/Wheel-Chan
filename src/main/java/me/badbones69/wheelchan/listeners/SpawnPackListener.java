@@ -1,6 +1,7 @@
 package me.badbones69.wheelchan.listeners;
 
 import me.badbones69.wheelchan.api.WheelChan;
+import me.badbones69.wheelchan.api.objects.Senpai;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,16 +15,28 @@ public class SpawnPackListener extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent e) {
         User user = e.getAuthor();
         Message message = e.getMessage();
-        if (user.isBot() && user.getId().equals("673362753489993749") && isSpawnPackMessage(message.getContentDisplay())) {
-            User mentioned = message.getMentionedUsers().get(0);
-            if (wheelChan.isSenpai(mentioned)) {
-                wheelChan.getSenpai(mentioned).newCooldown();
+        if (user.isBot() && user.getId().equals("673362753489993749")) {
+            if (isSpawnPackMessage(message.getContentDisplay())) {
+                User mentioned = message.getMentionedUsers().get(0);
+                if (wheelChan.isSenpai(mentioned)) {
+                    wheelChan.getSenpai(mentioned).newCooldown();
+                }
+            } else if (isSpawnPackDenyMessage(message.getContentDisplay())) {
+                User mentioned = message.getMentionedUsers().get(0);
+                Senpai senpai = wheelChan.getSenpai(mentioned);
+                if (wheelChan.isSenpai(mentioned) && senpai.isCooldownOver()) {
+                    senpai.setUnknownCooldown();
+                }
             }
         }
     }
     
     private boolean isSpawnPackMessage(String message) {
         return message.contains("be the one to collect it!");
+    }
+    
+    private boolean isSpawnPackDenyMessage(String message) {
+        return message.contains("you don't have a pack to spawn at the moment.");
     }
     
 }

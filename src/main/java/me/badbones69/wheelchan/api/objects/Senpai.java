@@ -37,6 +37,10 @@ public class Senpai {
         return spawnPackCooldown;
     }
     
+    public void setUnknownCooldown() {
+        spawnPackCooldown = 0;
+    }
+    
     public void newCooldown() {
         newCooldown(Calendar.getInstance());
     }

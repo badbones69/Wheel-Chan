@@ -19,7 +19,7 @@ public class ListSenseisCommand {
     private static List<String> getSenseiList() {
         List<String> senseis = new ArrayList<>();
         for (Sensei sensei : wheelChan.getSenseis()) {
-            senseis.add("- " + sensei.getUser().getAsMention());
+            senseis.add("- " + sensei.getUser().getName());
         }
         return senseis;
     }
