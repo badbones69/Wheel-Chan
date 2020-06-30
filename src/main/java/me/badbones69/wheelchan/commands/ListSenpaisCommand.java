@@ -26,7 +26,7 @@ public class ListSenpaisCommand {
     
     private static String getCooldown(Senpai senpai) {
         String cooldownString;
-        String mention = senpai.getUser().getName();
+        String mention = "**" + senpai.getUser().getName() + "**";
         if (senpai.hasCooldown()) {
             if (senpai.isCooldownOver()) {
                 cooldownString = ":agree: " + mention;
