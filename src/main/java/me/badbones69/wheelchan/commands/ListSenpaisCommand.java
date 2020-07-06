@@ -27,7 +27,7 @@ public class ListSenpaisCommand {
     private static String getCooldown(Senpai senpai) {
         String cooldownString;
         //Was getting weird NPE from this line so needed to add some checks.
-        String mention = "**" + senpai != null && senpai.getUser() != null ? senpai.getUser().getName() : "Failed to get user!" + "**";
+        String mention = "**" + (senpai != null && senpai.getUser() != null ? senpai.getUser().getName() : "Failed to get user!") + "**";
         if (senpai.hasCooldown()) {
             if (senpai.isCooldownOver()) {
                 cooldownString = ":agree: " + mention;
