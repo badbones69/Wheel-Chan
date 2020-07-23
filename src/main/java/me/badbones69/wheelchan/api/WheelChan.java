@@ -160,8 +160,12 @@ public class WheelChan {
     }
     
     public void removeSenpai(String senpaiID) {
-        senpais.remove(getSenpai(senpaiID));
-        saveData();
+        Senpai senpai = getSenpai(senpaiID);
+        //Got a NPE from here so fixing with a check.
+        if (senpai != null) {
+            senpais.remove(senpai);
+            saveData();
+        }
     }
     
     public boolean isSenpai(User senpai) {
