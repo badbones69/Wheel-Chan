@@ -36,6 +36,8 @@ public enum Messages {
     LIST_SENPAIS("List-Senpais"),
     LIST_SENSEIS("List-Senseis"),
     SPIN_WHEEL("Spin-Wheel"),
+    TRACKER_STATS("Tracker-Stats"),
+    TRACKER_MISSED("Tracker-Missed"),
     HELP("Help");
     
     private String path;

@@ -4,6 +4,7 @@ import me.badbones69.wheelchan.api.FileManager.Files;
 import me.badbones69.wheelchan.api.enums.Messages;
 import me.badbones69.wheelchan.api.objects.Senpai;
 import me.badbones69.wheelchan.api.objects.Sensei;
+import me.badbones69.wheelchan.listeners.CardSpawnListener;
 import me.badbones69.wheelchan.listeners.CommandListener;
 import me.badbones69.wheelchan.listeners.SpawnPackListener;
 import net.dv8tion.jda.api.AccountType;
@@ -15,6 +16,7 @@ import net.dv8tion.jda.api.entities.User;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,7 @@ public class WheelChan {
             }
         }
         commandChannels.addAll(data.getStringList("Command-Channels"));
+        CardTracker.getInstance().load();
     }
     
     public JDA getJDA() {
@@ -220,7 +223,7 @@ public class WheelChan {
             try {
                 jda = new JDABuilder(AccountType.BOT)
                 .setToken(Files.CONFIG.getFile().getString("Token"))
-                .addEventListeners(new CommandListener(), new SpawnPackListener()).build();
+                .addEventListeners(new CommandListener(), new SpawnPackListener(), new CardSpawnListener()).build();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -254,6 +257,47 @@ public class WheelChan {
         }
         data.set("Senseis", getSenseiIDs());
         Files.DATA.saveFile();
+    }
+    
+    public boolean isShoob(User user) {
+        return user.isBot() && user.getId().equals("673362753489993749");
+    }
+    
+    public String convertToTime(Calendar time) {
+        return convertToTime(time.getTimeInMillis());
+    }
+    
+    public String convertToTime(Calendar time, boolean reverseCheck) {
+        return convertToTime(time.getTimeInMillis(), reverseCheck);
+    }
+    
+    public String convertToTime(long time) {
+        return convertToTime(time, false);
+    }
+    
+    public String convertToTime(long time, boolean reverseCheck) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(time);
+        int total = reverseCheck ? (int) (Calendar.getInstance().getTimeInMillis() / 1000) - (int) (cal.getTimeInMillis() / 1000) : (int) (cal.getTimeInMillis() / 1000) - (int) (Calendar.getInstance().getTimeInMillis() / 1000);
+        int day = 0;
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        for (; total > 86400; total -= 86400, day++) ;
+        for (; total > 3600; total -= 3600, hour++) ;
+        for (; total >= 60; total -= 60, minute++) ;
+        second += total;
+        String message = "";
+        if (day > 0) message += day + "d, ";
+        if (day > 0 || hour > 0) message += hour + "h, ";
+        if (day > 0 || hour > 0 || minute > 0) message += minute + "m, ";
+        if (day > 0 || hour > 0 || minute > 0 || second > 0) message += second + "s, ";
+        if (message.length() < 2) {
+            message = "Now";
+        } else {
+            message = message.substring(0, message.length() - 2);
+        }
+        return message;
     }
     
 }

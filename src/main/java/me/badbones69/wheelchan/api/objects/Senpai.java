@@ -64,32 +64,7 @@ public class Senpai {
     }
     
     public String getCooldownString() {
-        return convertToTime(spawnPackCooldown);
-    }
-    
-    private String convertToTime(long time) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
-        int total = ((int) (cal.getTimeInMillis() / 1000) - (int) (Calendar.getInstance().getTimeInMillis() / 1000));
-        int day = 0;
-        int hour = 0;
-        int minute = 0;
-        int second = 0;
-        for (; total > 86400; total -= 86400, day++) ;
-        for (; total > 3600; total -= 3600, hour++) ;
-        for (; total >= 60; total -= 60, minute++) ;
-        second += total;
-        String message = "";
-        if (day > 0) message += day + "d, ";
-        if (day > 0 || hour > 0) message += hour + "h, ";
-        if (day > 0 || hour > 0 || minute > 0) message += minute + "m, ";
-        if (day > 0 || hour > 0 || minute > 0 || second > 0) message += second + "s, ";
-        if (message.length() < 2) {
-            message = "Now";
-        } else {
-            message = message.substring(0, message.length() - 2);
-        }
-        return message;
+        return wheelChan.convertToTime(spawnPackCooldown);
     }
     
 }

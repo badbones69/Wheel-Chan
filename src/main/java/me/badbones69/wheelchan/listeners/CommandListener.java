@@ -101,6 +101,18 @@ public class CommandListener extends ListenerAdapter {
                         if (isCommandChannel) {
                             LinkCooldownCommand.runCommand(e);
                         }
+                        return;
+                    case "miss":
+                    case "missed":
+                        if (isCommandChannel) {
+                            TrackerMissedCommand.runCommand(e);
+                        }
+                        return;
+                    case "stat":
+                    case "stats":
+                        if (isCommandChannel) {
+                            TrackerStatsCommand.runCommand(e);
+                        }
                 }
             }
         }

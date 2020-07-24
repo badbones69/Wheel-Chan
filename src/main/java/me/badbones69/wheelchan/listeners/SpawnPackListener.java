@@ -15,7 +15,7 @@ public class SpawnPackListener extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent e) {
         User user = e.getAuthor();
         Message message = e.getMessage();
-        if (user.isBot() && user.getId().equals("673362753489993749")) {
+        if (wheelChan.isShoob(user)) {
             if (isSpawnPackMessage(message.getContentDisplay())) {
                 User mentioned = message.getMentionedUsers().get(0);
                 if (wheelChan.isSenpai(mentioned)) {

@@ -5,7 +5,7 @@ import me.badbones69.wheelchan.api.WheelChan;
 
 public class Main {
     
-    public static void main(String[] rgs) {
+    public static void main(String[] args) {
         FileManager.getInstance().logInfo(true).setup();
         WheelChan.getInstance().load();
     }
