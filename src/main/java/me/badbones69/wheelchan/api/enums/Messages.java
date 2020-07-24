@@ -27,6 +27,7 @@ public enum Messages {
     NOT_MY_SENSEI("Not-My-Sensei"),
     NO_PERMISSION("No-Permission"),
     CLEAR_SENPAIS("Clear-Senpais"),
+    SET_LOGGING_CHANNEL("Set-Logging-Channel"),
     ADD_COMMAND_CHANNEL("Add-Command-Channel"),
     REMOVE_COMMAND_CHANNEL("Remove-Command-Channel"),
     ALREADY_COMMAND_CHANNEL("Already-Command-Channel"),

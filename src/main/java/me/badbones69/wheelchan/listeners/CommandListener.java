@@ -87,6 +87,11 @@ public class CommandListener extends ListenerAdapter {
                             RemoveSenpaiCommand.runCommand(e);
                         }
                         return;
+                    case "sl":
+                    case "setlog":
+                    case "setlogging":
+                        SetLoggingChannel.runCommand(e);
+                        return;
                     case "ac":
                     case "addchannel":
                         AddChannelCommand.runCommand(e);
@@ -102,6 +107,7 @@ public class CommandListener extends ListenerAdapter {
                             LinkCooldownCommand.runCommand(e);
                         }
                         return;
+                    case "m":
                     case "miss":
                     case "missed":
                         if (isCommandChannel) {

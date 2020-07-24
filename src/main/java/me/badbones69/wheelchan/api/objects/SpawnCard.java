@@ -12,12 +12,23 @@ public class SpawnCard {
     private String characterName;
     private Calendar spawnTime;
     private boolean claimed;
+    private String cardURL;
     
     public SpawnCard() {
         tier = 0;
         characterName = "Unknown Character";
         spawnTime = Calendar.getInstance();
         claimed = false;
+        cardURL = "https://animesoul.com";
+    }
+    
+    public SpawnCard(MessageEmbed embed) {
+        String[] split = embed.getTitle().split(" Tier: ");
+        tier = Integer.parseInt(split[1]);
+        characterName = split[0];
+        spawnTime = Calendar.getInstance();
+        claimed = false;
+        cardURL = embed.getImage().getProxyUrl();
     }
     
     public SpawnCard(String convertString) {
@@ -41,14 +52,6 @@ public class SpawnCard {
         System.out.println(toString());
     }
     
-    public SpawnCard(MessageEmbed embed) {
-        String[] split = embed.getTitle().split(" Tier: ");
-        tier = Integer.parseInt(split[1]);
-        characterName = split[0];
-        spawnTime = Calendar.getInstance();
-        claimed = false;
-    }
-    
     public int getTier() {
         return tier;
     }
@@ -67,6 +70,10 @@ public class SpawnCard {
     
     public void setClaimed(boolean claimed) {
         this.claimed = claimed;
+    }
+    
+    public String getCardURL() {
+        return cardURL;
     }
     
     public String getCardInfo() {

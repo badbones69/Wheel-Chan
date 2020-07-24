@@ -25,6 +25,20 @@ public class EmbedMessage {
     private String footer;
     private String footerURL;
     
+    public EmbedMessage() {
+        this.name = "";
+        this.title = "";
+        this.titleURL = "";
+        this.author = "";
+        this.authorURL = "";
+        this.imageURL = "";
+        this.thumbnailURL = "";
+        this.embedColor = Color.YELLOW;
+        this.description = "";
+        this.footer = "";
+        this.footerURL = "";
+    }
+    
     public EmbedMessage(String name) {
         FileConfiguration config = Files.CONFIG.getFile();
         String path = "Messages." + name + ".";
@@ -45,44 +59,104 @@ public class EmbedMessage {
         return name;
     }
     
-    public Color getEmbedColor() {
-        return embedColor;
-    }
-    
-    public String getDescription() {
-        return description;
-    }
-    
-    public String getFooter() {
-        return footer;
-    }
-    
-    public String getFooterURL() {
-        return footerURL;
+    public EmbedMessage setName(String name) {
+        this.name = name;
+        return this;
     }
     
     public String getTitle() {
         return title;
     }
     
+    public EmbedMessage setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+    
     public String getTitleURL() {
         return titleURL;
+    }
+    
+    public EmbedMessage setTitleURL(String titleURL) {
+        this.titleURL = titleURL;
+        return this;
     }
     
     public String getAuthor() {
         return author;
     }
     
+    public EmbedMessage setAuthor(String author) {
+        this.author = author;
+        return this;
+    }
+    
     public String getAuthorURL() {
         return authorURL;
+    }
+    
+    public EmbedMessage setAuthorURL(String authorURL) {
+        this.authorURL = authorURL;
+        return this;
     }
     
     public String getImageURL() {
         return imageURL;
     }
     
+    public EmbedMessage setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+        return this;
+    }
+    
     public String getThumbnailURL() {
         return thumbnailURL;
+    }
+    
+    public EmbedMessage setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
+        return this;
+    }
+    
+    public Color getEmbedColor() {
+        return embedColor;
+    }
+    
+    public EmbedMessage setEmbedColor(Color embedColor) {
+        this.embedColor = embedColor;
+        return this;
+    }
+    
+    public EmbedMessage setEmbedColor(String embedColor) {
+        this.embedColor = getColor(embedColor);
+        return this;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public EmbedMessage setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+    
+    public String getFooter() {
+        return footer;
+    }
+    
+    public EmbedMessage setFooter(String footer) {
+        this.footer = footer;
+        return this;
+    }
+    
+    public String getFooterURL() {
+        return footerURL;
+    }
+    
+    public EmbedMessage setFooterURL(String footerURL) {
+        this.footerURL = footerURL;
+        return this;
     }
     
     public EmbedBuilder getEmbedMessage(Guild guild) {

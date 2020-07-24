@@ -2,8 +2,11 @@ package me.badbones69.wheelchan.listeners;
 
 import me.badbones69.wheelchan.api.CardTracker;
 import me.badbones69.wheelchan.api.WheelChan;
+import me.badbones69.wheelchan.api.objects.ClaimedCard;
+import me.badbones69.wheelchan.api.objects.DespawnCard;
 import me.badbones69.wheelchan.api.objects.SpawnCard;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -18,6 +21,7 @@ public class CardSpawnListener extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent e) {
         User user = e.getAuthor();
         Message message = e.getMessage();
+        MessageChannel logging = e.getGuild().getTextChannelById(cardTracker.getLoggingChannelID());
         if (wheelChan.isShoob(user)) {
             SpawnCard card;
             if (!message.getEmbeds().isEmpty()) {
@@ -26,18 +30,22 @@ public class CardSpawnListener extends ListenerAdapter {
                 if (embed.getTitle() != null && isSpawnMessage(embed.getTitle())) {
                     card = new SpawnCard(embed);
                     cardTracker.newSpawnCard(card);
-                    System.out.println("Card has Spawned: " + card);
+                    System.out.println("Spawned: " + card);
                     //Card is claimed
                 } else if (embed.getDescription() != null && isClaimedMessage(embed.getDescription())) {
                     cardTracker.setSpawnCardClaim(true);
                     card = cardTracker.getLatestCard();
-                    System.out.println("Card has been Claimed: " + card);
+                    System.out.println("Claimed: " + card);
+                    User claimed = wheelChan.getJDA().getUserById(embed.getDescription().split("<@")[1].split(">")[0]);
+                    int issue = Integer.parseInt(embed.getDescription().split("#: ")[1].split("\\.")[0].replace("`", ""));
+                    logging.sendMessage(new ClaimedCard(card.getCardURL(), card, issue, claimed).getMessage().getEmbedMessage(e.getGuild()).build()).complete();
                 }
                 //Card despawns
             } else if (isDespawnMessage(message.getContentDisplay())) {
                 cardTracker.setSpawnCardClaim(false);
                 card = cardTracker.getLatestCard();
-                System.out.println("Card has Despawned: " + card);
+                System.out.println("Despawned: " + card);
+                logging.sendMessage(new DespawnCard(card.getCardURL(), card).getMessage().getEmbedMessage(e.getGuild()).build()).complete();
             }
         }
     }
