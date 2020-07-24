@@ -76,10 +76,6 @@ public class SpawnCard {
         return cardURL;
     }
     
-    public String getCardInfo() {
-        return "Name: **" + characterName + "** Spawned: **" + wheelChan.convertToTime(spawnTime, true) + "** ago";
-    }
-    
     @Override
     public String toString() {
         return "name:" + characterName + ", tier:" + tier + ", claimed:" + claimed + ", spawn-time:" + spawnTime.getTimeInMillis();

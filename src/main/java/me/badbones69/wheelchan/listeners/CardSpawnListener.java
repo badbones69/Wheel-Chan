@@ -12,6 +12,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import java.time.Instant;
+
 public class CardSpawnListener extends ListenerAdapter {
     
     private WheelChan wheelChan = WheelChan.getInstance();
@@ -38,14 +40,14 @@ public class CardSpawnListener extends ListenerAdapter {
                     System.out.println("Claimed: " + card);
                     User claimed = wheelChan.getJDA().getUserById(embed.getDescription().split("<@")[1].split(">")[0]);
                     int issue = Integer.parseInt(embed.getDescription().split("#: ")[1].split("\\.")[0].replace("`", ""));
-                    logging.sendMessage(new ClaimedCard(card.getCardURL(), card, issue, claimed).getMessage().getEmbedMessage(e.getGuild()).build()).complete();
+                    logging.sendMessage(new ClaimedCard(card.getCardURL(), card, issue, claimed).getMessage().getEmbedMessage(e.getGuild()).setTimestamp(Instant.now()).build()).complete();
                 }
                 //Card despawns
             } else if (isDespawnMessage(message.getContentDisplay())) {
                 cardTracker.setSpawnCardClaim(false);
                 card = cardTracker.getLatestCard();
                 System.out.println("Despawned: " + card);
-                logging.sendMessage(new DespawnCard(card.getCardURL(), card).getMessage().getEmbedMessage(e.getGuild()).build()).complete();
+                logging.sendMessage(new DespawnCard(card.getCardURL(), card).getMessage().getEmbedMessage(e.getGuild()).setTimestamp(Instant.now()).build()).complete();
             }
         }
     }
