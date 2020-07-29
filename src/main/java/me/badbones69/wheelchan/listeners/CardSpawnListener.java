@@ -24,7 +24,7 @@ public class CardSpawnListener extends ListenerAdapter {
         User user = e.getAuthor();
         Message message = e.getMessage();
         MessageChannel logging = e.getGuild().getTextChannelById(cardTracker.getLoggingChannelID());
-        if (wheelChan.isShoob(user)) {
+        if (wheelChan.isShoob(user) && !SpawnPackListener.isSpawnPackMessage(message.getContentDisplay())) {
             SpawnCard card;
             if (!message.getEmbeds().isEmpty()) {
                 MessageEmbed embed = message.getEmbeds().get(0);

@@ -31,7 +31,7 @@ public class SpawnPackListener extends ListenerAdapter {
         }
     }
     
-    private boolean isSpawnPackMessage(String message) {
+    public static boolean isSpawnPackMessage(String message) {
         return message.contains("be the one to collect it!");
     }
     
