@@ -48,6 +48,7 @@
 
     <build>
         <defaultGoal>clean install package</defaultGoal>
+        <finalName>Wheel-Chan</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -77,8 +78,8 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.1</version>
                 <configuration>
-                    <!-- This is just for when building on the VPS. -->
-                    <!--                    <outputFile>/root/Wheel-Chan/Wheel-Chan.jar</outputFile>-->
+                    <!-- This is for moving the jar out of the target folder. -->
+                    <outputFile>${build.outputDirectory}/../../Wheel-Chan.jar</outputFile>
                     <artifactSet>
                         <includes>
                             <include>*</include>
