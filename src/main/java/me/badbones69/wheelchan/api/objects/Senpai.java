@@ -52,7 +52,7 @@ public class Senpai {
     }
     
     public void newCooldown(Calendar spawned) {
-        spawned.add(Calendar.DAY_OF_MONTH, 2);
+        spawned.add(Calendar.DAY_OF_MONTH, 3);
         spawnPackCooldown = spawned.getTimeInMillis();
         wheelChan.saveSenpai(this);
     }
