@@ -7,7 +7,6 @@ import me.badbones69.wheelchan.api.objects.Sensei;
 import me.badbones69.wheelchan.listeners.CardSpawnListener;
 import me.badbones69.wheelchan.listeners.CommandListener;
 import me.badbones69.wheelchan.listeners.SpawnPackListener;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -221,9 +220,9 @@ public class WheelChan {
     private void loadJDA() {
         if (jda == null) {
             try {
-                jda = new JDABuilder(AccountType.BOT)
-                .setToken(Files.CONFIG.getFile().getString("Token"))
-                .addEventListeners(new CommandListener(), new SpawnPackListener(), new CardSpawnListener()).build();
+                jda = JDABuilder.createDefault(Files.CONFIG.getFile().getString("Token"))
+                .addEventListeners(new CommandListener(), new SpawnPackListener(), new CardSpawnListener())
+                .build();
             } catch (Exception e) {
                 e.printStackTrace();
             }
