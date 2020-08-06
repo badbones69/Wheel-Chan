@@ -57,7 +57,7 @@ public class CardSpawnListener extends ListenerAdapter {
     }
     
     private boolean isClaimedMessage(String message) {
-        return message.contains("got the card!");
+        return message.contains("got the card!") && message.toLowerCase().contains(cardTracker.getLatestCard().getCharacterName().toLowerCase());
     }
     
     private boolean isDespawnMessage(String message) {
