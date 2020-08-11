@@ -122,16 +122,6 @@ Messages:
     Embed-Color: 'red'
     Title: 'Failed to find pack spawn message :wot:'
     Footer: 'No message was found for that ID.'
-  List-Senpais:
-    Embed-Color: 'Green'
-    Title: 'Here is a list of my current Senpais :teriwoke:'
-    Description:
-      - '%senpais%'
-      - ''
-      - 'Legend:'
-      - ':agree: Spawn Pack is available.'
-      - ':disagree: Spawn Pack still in cooldown.'
-      - ':Bully: Spawn Pack cooldown unknown.'
   List-Senseis:
     Embed-Color: 'Green'
     Title: 'Here is a list of my current Senseis.'

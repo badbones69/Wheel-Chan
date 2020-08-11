@@ -122,12 +122,12 @@ public class EmbedMessage {
         return embedColor;
     }
     
-    public EmbedMessage setEmbedColor(Color embedColor) {
+    public EmbedMessage setColor(Color embedColor) {
         this.embedColor = embedColor;
         return this;
     }
     
-    public EmbedMessage setEmbedColor(String embedColor) {
+    public EmbedMessage setColor(String embedColor) {
         this.embedColor = getColor(embedColor);
         return this;
     }

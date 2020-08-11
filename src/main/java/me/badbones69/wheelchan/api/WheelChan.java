@@ -10,6 +10,7 @@ import me.badbones69.wheelchan.listeners.SpawnPackListener;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -43,7 +44,8 @@ public class WheelChan {
         if (data.contains("Senpais")) {
             if (data.getStringList("Senpais").isEmpty()) {
                 for (String senpaiID : data.getConfigurationSection("Senpais").getKeys(false)) {
-                    senpais.add(new Senpai(senpaiID, data.getLong("Senpais." + senpaiID + ".Cooldown")));
+                    senpais.add(new Senpai(senpaiID, data.getLong("Senpais." + senpaiID + ".Cooldown"),
+                    data.getString("Senpais." + senpaiID + ".Name", "Failed to get user!")));
                 }
             }
         }
@@ -137,25 +139,21 @@ public class WheelChan {
     }
     
     public void addSenpai(User senpai) {
-        addSenpai(senpai.getId());
+        senpais.add(new Senpai(senpai.getId(), senpai.getName()));
+        saveData();
     }
     
     public void addSenpais(List<User> senpaiList) {
         boolean newSenpai = false;
         for (User senpai : senpaiList) {
             if (!isSenpai(senpai)) {
-                senpais.add(new Senpai(senpai.getId()));
+                senpais.add(new Senpai(senpai.getId(), senpai.getName()));
                 newSenpai = true;
             }
         }
         if (newSenpai) {
             saveData();
         }
-    }
-    
-    public void addSenpai(String senpaiID) {
-        senpais.add(new Senpai(senpaiID));
-        saveData();
     }
     
     public void removeSenpai(User senpai) {
@@ -290,6 +288,21 @@ public class WheelChan {
         if (day > 0 || hour > 0 || minute > 0) message += minute + "m, ";
         if ((day == 0 && hour == 0) && (minute > 0 || second > 0)) message += second + "s, ";
         return message.length() < 2 ? "Now" : message.substring(0, message.length() - 2);
+    }
+    
+    public String replaceEmotes(String message, Guild guild) {
+        if (message.contains(":")) {
+            // - ':emote:'
+            // - 'Hello :emote:'
+            // - ':emote: Hello'
+            // - 'Hello :emote: lol'
+            for (Emote emote : guild.getEmotes()) {
+                if (message.contains(":" + emote.getName() + ":")) {
+                    message = message.replace(":" + emote.getName() + ":", emote.getAsMention());
+                }
+            }
+        }
+        return message;
     }
     
 }

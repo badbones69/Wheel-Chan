@@ -23,7 +23,7 @@ public class DespawnCard {
     public EmbedMessage getMessage() {
         return new EmbedMessage()
         .setThumbnailURL(cardURL)
-        .setEmbedColor(Color.RED)
+        .setColor(Color.RED)
         .setTitle(":disagree: Despawned")
         .setDescription(
         "Tier: **" + card.getTier() + "**\n" +

@@ -37,7 +37,7 @@ public class ClaimedCard {
     public EmbedMessage getMessage() {
         return new EmbedMessage()
         .setThumbnailURL(cardURL)
-        .setEmbedColor(Color.GREEN)
+        .setColor(Color.GREEN)
         .setTitle(":agree: Claimed")
         .setDescription(
         "Tier: **" + card.getTier() + " v" + issue + "**\n" +

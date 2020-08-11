@@ -9,16 +9,31 @@ public class Senpai {
     
     private String senpaiID;
     private long spawnPackCooldown;
+    private String cacheName;
     private WheelChan wheelChan = WheelChan.getInstance();
     
     public Senpai(String userID) {
         this.senpaiID = userID;
         this.spawnPackCooldown = 0;
+        cacheName = "Failed to get user!";
+    }
+    
+    public Senpai(String userID, String cacheName) {
+        this.senpaiID = userID;
+        this.spawnPackCooldown = 0;
+        this.cacheName = cacheName;
     }
     
     public Senpai(String userID, long spawnPackCooldown) {
         this.senpaiID = userID;
         this.spawnPackCooldown = spawnPackCooldown;
+        cacheName = "Failed to get user!";
+    }
+    
+    public Senpai(String userID, long spawnPackCooldown, String cacheName) {
+        this.senpaiID = userID;
+        this.spawnPackCooldown = spawnPackCooldown;
+        this.cacheName = cacheName;
     }
     
     public String getID() {
@@ -27,6 +42,10 @@ public class Senpai {
     
     public User getUser() {
         return wheelChan.getJDA().getUserById(senpaiID);
+    }
+    
+    public String getCacheName() {
+        return cacheName;
     }
     
     public boolean hasCooldown() {
