@@ -80,8 +80,10 @@ public class TestCommand {
                         MessageEmbed embed = message.getEmbeds().get(0);
                         if (embed.getDescription() != null && embed.getDescription().contains("got the card!")) {
                             User user = wheelChan.getJDA().getUserById(embed.getDescription().split("<@")[1].split(">")[0]);
-                            mapCache.put(user, mapCache.getOrDefault(user, 0) + 1);
-                            System.out.println("- Found claim from " + user.getName());
+                            if (user != null) {
+                                mapCache.put(user, mapCache.getOrDefault(user, 0) + 1);
+                                System.out.println("- Found claim from " + user.getName());
+                            }
                         }
                     }
                 }
