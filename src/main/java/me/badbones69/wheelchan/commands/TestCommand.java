@@ -80,7 +80,8 @@ public class TestCommand {
             System.out.println(limit + ": " + messageList.size());
             for (Message message : messageList) {
                 if (wheelChan.isShoob(message.getAuthor()) && message.getContentDisplay().contains("No sniping allowed")) {
-                    mapCache.put(message.getAuthor(), mapCache.getOrDefault(message.getMentionedUsers().get(0), 0) + 1);
+                    User sniper = message.getMentionedUsers().get(0);
+                    mapCache.put(sniper, mapCache.getOrDefault(sniper, 0) + 1);
                 }
                 //mapCache.put(message.getAuthor(), mapCache.getOrDefault(message.getAuthor(), 0) + 1);
                 lastMessage = message;
