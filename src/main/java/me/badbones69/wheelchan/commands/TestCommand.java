@@ -37,6 +37,14 @@ public class TestCommand {
                 errored = true;
                 System.out.println("Saved to cache");
             }
+            while (errored) {
+                try {
+                    getMap(channel);
+                    errored = false;
+                } catch (Exception ex) {
+                    System.out.println("Saved to cache");
+                }
+            }
             int total = 0;
             int limit = 0;
             for (Entry<User, Integer> entry : sortByValue(mapCache).entrySet()) {
