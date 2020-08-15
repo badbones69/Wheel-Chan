@@ -2,10 +2,7 @@ package me.badbones69.wheelchan.commands;
 
 import me.badbones69.wheelchan.api.WheelChan;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.*;
@@ -18,7 +15,7 @@ public class TestCommand {
     private static boolean errored = false;
     private static Map<User, Integer> mapCache = new HashMap<>();
     private static int limit = 1;
-    private static int maxLoop = 666;
+    private static int maxLoop = 1000;
     
     public static void runCommand(MessageReceivedEvent e) {
         MessageChannel channel = e.getChannel();
@@ -36,6 +33,7 @@ public class TestCommand {
             } catch (Exception ex) {
                 errored = true;
                 System.out.println("Saved to cache");
+                ex.printStackTrace();
             }
             while (errored) {
                 try {
@@ -43,6 +41,7 @@ public class TestCommand {
                     errored = false;
                 } catch (Exception ex) {
                     System.out.println("Saved to cache");
+                    ex.printStackTrace();
                 }
             }
             int total = 0;
@@ -71,21 +70,24 @@ public class TestCommand {
         return result;
     }
     
-    //561359380792999949 Krabbs
-    //285275949690519554 Chong
-    
     private static void getMap(MessageChannel channel) {
         for (; limit <= maxLoop; limit++) {
             List<Message> messageList = channel.getHistoryAfter(lastMessage, 100).complete().retrievePast(100).complete();
             System.out.println(limit + ": " + messageList.size());
             for (Message message : messageList) {
-                if (wheelChan.isShoob(message.getAuthor()) && message.getContentDisplay().contains("No sniping allowed")) {
-                    User sniper = message.getMentionedUsers().get(0);
-                    mapCache.put(sniper, mapCache.getOrDefault(sniper, 0) + 1);
+                if (!message.getId().equals(lastMessage.getId())) {
+                    if (wheelChan.isShoob(message.getAuthor()) && !message.getEmbeds().isEmpty()) {
+                        MessageEmbed embed = message.getEmbeds().get(0);
+                        if (embed.getDescription() != null && embed.getDescription().contains("got the card!")) {
+                            User user = wheelChan.getJDA().getUserById(embed.getDescription().split("<@")[1].split(">")[0]);
+                            mapCache.put(user, mapCache.getOrDefault(user, 0) + 1);
+                            System.out.println("- Found claim from " + user.getName());
+                        }
+                    }
                 }
                 //mapCache.put(message.getAuthor(), mapCache.getOrDefault(message.getAuthor(), 0) + 1);
-                lastMessage = message;
             }
+            lastMessage = messageList.get(messageList.size() - 1);
             if (messageList.size() < 100) {
                 break;
             }

@@ -46,7 +46,7 @@ public class CardSpawnListener extends ListenerAdapter {
         return message.contains("Tier: ");
     }
     
-    private boolean isClaimedMessage(String message) {
+    public boolean isClaimedMessage(String message) {
         return message.contains("got the card!") && message.toLowerCase().contains(cardTracker.getLatestCard().getCharacterName().toLowerCase());
     }
     
