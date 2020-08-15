@@ -18,7 +18,7 @@ public class TestCommand {
     private static boolean errored = false;
     private static Map<User, Integer> mapCache = new HashMap<>();
     private static int limit = 1;
-    private static int maxLoop = 1000;
+    private static int maxLoop = 666;
     
     public static void runCommand(MessageReceivedEvent e) {
         MessageChannel channel = e.getChannel();
