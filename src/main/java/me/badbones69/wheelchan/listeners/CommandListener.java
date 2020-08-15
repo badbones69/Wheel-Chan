@@ -124,6 +124,11 @@ public class CommandListener extends ListenerAdapter {
                         if (isCommandChannel) {
                             TestCommand.runCommand(e);
                         }
+                        return;
+                    case "save":
+                        if (isCommandChannel) {
+                            TestCommand.runSaveCommand(e);
+                        }
                 }
             }
         }
