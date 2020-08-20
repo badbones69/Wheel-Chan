@@ -23,14 +23,14 @@ public class TrackerStatsCommand {
         .setDescription(Messages.replacePlaceholders(placeholders,
         "**__Total Spawned Cards:__**\n" +
         "Total Cards: **%total_spawned_cards%**"))
-        .addField("**__Spawned Cards:__**",
+        .addField("**__Claimed Cards:__**",
         Messages.replacePlaceholders(placeholders,
-        "Tier 1: **%spawned_tier_1%**\n" +
-        "Tier 2: **%spawned_tier_2%**\n" +
-        "Tier 3: **%spawned_tier_3%**\n" +
-        "Tier 4: **%spawned_tier_4%**\n" +
-        "Tier 5: **%spawned_tier_5%**\n" +
-        "Tier 6: **%spawned_tier_6%**\n"), true)
+        "Tier 1: **%claimed_tier_1%**\n" +
+        "Tier 2: **%claimed_tier_2%**\n" +
+        "Tier 3: **%claimed_tier_3%**\n" +
+        "Tier 4: **%claimed_tier_4%**\n" +
+        "Tier 5: **%claimed_tier_5%**\n" +
+        "Tier 6: **%claimed_tier_6%**\n"), true)
         .addField("**__Missed Cards:__**",
         Messages.replacePlaceholders(placeholders,
         "Tier 1: **%missed_tier_1%**\n" +
@@ -47,7 +47,7 @@ public class TrackerStatsCommand {
         Map<String, String> placeholders = new HashMap<>();
         placeholders.put("%total_spawned_cards%", cardTracker.getTotalSpawn() + "");
         IntStream.range(1, 8).forEachOrdered(tier -> {
-            placeholders.put("%spawned_tier_" + tier + "%", cardTracker.getSpawnedAmount(tier) + "");
+            placeholders.put("%claimed_tier_" + tier + "%", (cardTracker.getSpawnedAmount(tier) - cardTracker.getMissedAmount(tier)) + "");
             placeholders.put("%missed_tier_" + tier + "%", cardTracker.getMissedAmount(tier) + "");
         });
         return placeholders;
