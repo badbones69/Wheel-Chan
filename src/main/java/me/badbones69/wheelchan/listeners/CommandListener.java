@@ -119,16 +119,16 @@ public class CommandListener extends ListenerAdapter {
                         if (isCommandChannel) {
                             TrackerStatsCommand.runCommand(e);
                         }
-                        return;
-                    case "test":
-                        if (isCommandChannel) {
-                            TestCommand.runCommand(e);
-                        }
-                        return;
-                    case "save":
-                        if (isCommandChannel) {
-                            TestCommand.runSaveCommand(e);
-                        }
+//                        return;
+//                    case "test":
+//                        if (isCommandChannel) {
+//                            TestCommand.runCommand(e);
+//                        }
+//                        return;
+//                    case "save":
+//                        if (isCommandChannel) {
+//                            TestCommand.runSaveCommand(e);
+//                        }
                 }
             }
         }
