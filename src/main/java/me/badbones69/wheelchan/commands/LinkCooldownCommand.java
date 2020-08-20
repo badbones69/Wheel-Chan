@@ -20,21 +20,17 @@ public class LinkCooldownCommand {
     public static void runCommand(MessageReceivedEvent e) {
         User user = e.getAuthor();
         Guild guild = e.getGuild();
-        EmbedBuilder embed = Messages.REMOVE_SENPIE_DESCRIPTION.getMessage(guild, "%senpai%", user.getAsMention());
+        EmbedBuilder embed;
         if (wheelChan.isSensei(user, guild)) {
             Message message = grabMessage(e.getMessage().getContentDisplay(), e.getChannel());
-            if (message != null) {
-                if (message.getAuthor().isBot() && message.getAuthor().getId().equals("673362753489993749") && isSpawnPackMessage(message.getContentDisplay())) {
-                    User mentioned = message.getMentionedUsers().get(0);
-                    if (wheelChan.isSenpai(mentioned)) {
-                        Senpai senpai = wheelChan.getSenpai(mentioned);
-                        senpai.newCooldown(message.getTimeCreated().toInstant().toEpochMilli());
-                        Map<String, String> placeholders = new HashMap<>();
-                        placeholders.put("%senpai%", "*" + mentioned.getName() + "*");
-                        placeholders.put("%nextredeem%", senpai.getCooldownString());
-                        embed = Messages.LINKED_COOLDOWN.getMessage(guild, placeholders);
-                    }
-                }
+            User mentioned = message.getMentionedUsers().isEmpty() ? null : message.getMentionedUsers().get(0);
+            if (message != null && message.getAuthor().isBot() && message.getAuthor().getId().equals("673362753489993749") && isSpawnPackMessage(message.getContentDisplay()) && wheelChan.isSenpai(mentioned)) {
+                Senpai senpai = wheelChan.getSenpai(mentioned);
+                senpai.newCooldown(message.getTimeCreated().toInstant().toEpochMilli());
+                Map<String, String> placeholders = new HashMap<>();
+                placeholders.put("%senpai%", "*" + mentioned.getName() + "*");
+                placeholders.put("%nextredeem%", senpai.getCooldownString());
+                embed = Messages.LINKED_COOLDOWN.getMessage(guild, placeholders);
             } else {
                 embed = Messages.FAILED_LINKED_COOLDOWN.getMessage(guild);
             }
