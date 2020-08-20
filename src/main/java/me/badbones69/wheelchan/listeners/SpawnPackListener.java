@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class SpawnPackListener extends ListenerAdapter {
     
     private WheelChan wheelChan = WheelChan.getInstance();
-    
+
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
         User user = e.getAuthor();
