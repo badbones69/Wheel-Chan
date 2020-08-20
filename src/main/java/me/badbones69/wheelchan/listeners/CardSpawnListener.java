@@ -24,15 +24,21 @@ public class CardSpawnListener extends ListenerAdapter {
         User user = e.getAuthor();
         Message message = e.getMessage();
         MessageChannel logging = e.getGuild().getTextChannelById(cardTracker.getLoggingChannelID());
-        if (wheelChan.isShoob(user) && !SpawnPackListener.isSpawnPackMessage(message.getContentDisplay())) {
+        if (wheelChan.isShoob(user)) {
             SpawnCard card;
             if (!message.getEmbeds().isEmpty()) {
                 MessageEmbed embed = message.getEmbeds().get(0);
                 //New card spawns
                 if (embed.getTitle() != null && isSpawnMessage(embed.getTitle())) {
-                    card = new SpawnCard(embed);
-                    cardTracker.newSpawnCard(card);
-                    System.out.println("Spawned: " + card);
+                    if (SpawnPackListener.isSpawnPackMessage(message.getContentDisplay())) {
+                        card = new SpawnCard(embed);
+                        cardTracker.newSpawnpackCard(card);
+                        System.out.println("Spawn Pack: " + card);
+                    } else {
+                        card = new SpawnCard(embed);
+                        cardTracker.newSpawnCard(card);
+                        System.out.println("Spawned: " + card);
+                    }
                     //Card is claimed
                 } else if (embed.getDescription() != null && isClaimedMessage(embed.getDescription())) {
                     cardTracker.setSpawnCardClaim(true);

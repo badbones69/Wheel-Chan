@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CardTracker {
     
@@ -29,11 +30,11 @@ public class CardTracker {
         FileConfiguration data = Files.DATA.getFile();
         loggingChannelID = data.getString("Tracker.Logging-Channel", "");
         totalSpawn = data.getInt("Tracker.Total-Spawns");
-        for (int tier = 1; tier < 8; tier++) {
+        IntStream.range(1, 8).forEachOrdered(tier -> {
             spawnAmount.put(tier, data.getInt("Tracker.Spawned." + tier));
             missedAmount.put(tier, data.getInt("Tracker.Missed." + tier));
             recentMissedCards.put(tier, data.getStringList("Tracker.Recent-Missed." + tier).stream().map(SpawnCard :: new).collect(Collectors.toList()));
-        }
+        });
         System.out.println("Total-Spawns: " + totalSpawn);
         spawnAmount.forEach((tier, amount) -> System.out.println("Spawned Tier " + tier + ": " + amount));
         missedAmount.forEach((tier, amount) -> System.out.println("Missed Tier " + tier + ": " + amount));
@@ -42,6 +43,11 @@ public class CardTracker {
     
     public void newSpawnCard(SpawnCard spawnCard) {
         latestCard = spawnCard;
+        totalSpawn++;
+        spawnAmount.put(spawnCard.getTier(), spawnAmount.getOrDefault(spawnCard.getTier(), 0) + 1);
+    }
+    
+    public void newSpawnpackCard(SpawnCard spawnCard) {
         totalSpawn++;
         spawnAmount.put(spawnCard.getTier(), spawnAmount.getOrDefault(spawnCard.getTier(), 0) + 1);
     }
