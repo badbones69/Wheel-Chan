@@ -14,7 +14,8 @@ import java.util.stream.IntStream;
 public class CardTracker {
     
     private static CardTracker instance = new CardTracker();
-    private SpawnCard latestCard;
+    private SpawnCard latestSpawnCard;
+    private SpawnCard latestPackCard;
     private int totalSpawn;
     private String loggingChannelID;
     private Map<Integer, List<SpawnCard>> recentMissedCards = new HashMap<>();
@@ -26,7 +27,8 @@ public class CardTracker {
     }
     
     public void load() {
-        latestCard = new SpawnCard();
+        latestSpawnCard = new SpawnCard();
+        latestPackCard = new SpawnCard();
         FileConfiguration data = Files.DATA.getFile();
         loggingChannelID = data.getString("Tracker.Logging-Channel", "");
         totalSpawn = data.getInt("Tracker.Total-Spawns");
@@ -42,29 +44,30 @@ public class CardTracker {
     }
     
     public void newSpawnCard(SpawnCard spawnCard) {
-        latestCard = spawnCard;
+        latestSpawnCard = spawnCard;
         totalSpawn++;
         spawnAmount.put(spawnCard.getTier(), spawnAmount.getOrDefault(spawnCard.getTier(), 0) + 1);
     }
     
-    public void newSpawnpackCard(SpawnCard spawnCard) {
+    public void newSpawnpackCard(SpawnCard packCard) {
+        latestPackCard = packCard;
         totalSpawn++;
-        spawnAmount.put(spawnCard.getTier(), spawnAmount.getOrDefault(spawnCard.getTier(), 0) + 1);
+        spawnAmount.put(packCard.getTier(), spawnAmount.getOrDefault(packCard.getTier(), 0) + 1);
     }
     
     public void setSpawnCardClaim(boolean claimed) {
-        if (latestCard != null) {
-            latestCard.setClaimed(claimed);
+        if (latestSpawnCard != null) {
+            latestSpawnCard.setClaimed(claimed);
             if (!claimed) {
-                if (!recentMissedCards.containsKey(latestCard.getTier())) {
-                    recentMissedCards.put(latestCard.getTier(), new ArrayList<>(5));
+                if (!recentMissedCards.containsKey(latestSpawnCard.getTier())) {
+                    recentMissedCards.put(latestSpawnCard.getTier(), new ArrayList<>(5));
                 }
-                List<SpawnCard> spawnCards = recentMissedCards.get(latestCard.getTier());
-                spawnCards.add(latestCard);
+                List<SpawnCard> spawnCards = recentMissedCards.get(latestSpawnCard.getTier());
+                spawnCards.add(latestSpawnCard);
                 if (spawnCards.size() == 6) {
                     spawnCards.remove(spawnCards.get(0));
                 }
-                missedAmount.put(latestCard.getTier(), missedAmount.getOrDefault(latestCard.getTier(), 0) + 1);
+                missedAmount.put(latestSpawnCard.getTier(), missedAmount.getOrDefault(latestSpawnCard.getTier(), 0) + 1);
             }
         }
         saveTracker();
@@ -84,8 +87,12 @@ public class CardTracker {
         return totalSpawn;
     }
     
-    public SpawnCard getLatestCard() {
-        return latestCard;
+    public SpawnCard getLatestSpawnCard() {
+        return latestSpawnCard;
+    }
+    
+    public SpawnCard getLatestPackCard() {
+        return latestPackCard;
     }
     
     public List<SpawnCard> getRecentMissedCards(int tier) {
