@@ -78,7 +78,7 @@ public class TestCommand {
             }
             oldestMessage = lastMessage;
             int limit = 0;
-            for (Entry<User, Integer> entry : sortByValue(mapCache).entrySet()) {
+            for (Entry<User, Integer> entry : sortByValue(mapCache, true).entrySet()) {
                 spawnCards += entry.getValue();
                 if (limit < 10) {
                     message.append(entry.getKey().getName()).append(": ").append(String.format(Locale.ENGLISH, "%,d", entry.getValue())).append("\n");
@@ -95,10 +95,10 @@ public class TestCommand {
         return mapCache;
     }
     
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map, boolean reverse) {
         List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
         list.sort(Entry.comparingByValue());
-        Collections.reverse(list);
+        if (reverse) Collections.reverse(list);
         Map<K, V> result = new LinkedHashMap<>();
         for (Entry<K, V> entry : list) {
             result.put(entry.getKey(), entry.getValue());
