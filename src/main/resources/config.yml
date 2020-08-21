@@ -133,6 +133,8 @@ Messages:
     Title: 'Time to spin the wheel :grin:'
     Description:
       - 'It seems the winner of this wheel is %senpai%'
+      - ''
+      - 'Profile Link: https://animesoul.com/user/%senpai_id%'
     Footer:
       - 'Congratulations senpai enjoy your new card <3'
   Help:

@@ -5,6 +5,8 @@ import me.badbones69.wheelchan.api.enums.Messages;
 import me.badbones69.wheelchan.api.objects.Senpai;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class SpinCommand {
@@ -14,7 +16,10 @@ public class SpinCommand {
     
     public static void runCommand(MessageReceivedEvent e) {
         Senpai senpai = getRandomSenpai();
-        e.getChannel().sendMessage(Messages.SPIN_WHEEL.getMessage(e.getGuild(), "%senpai%", senpai.getUser().getName()).build()).complete();
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("%senpai%", senpai.getUser().getName());
+        placeholders.put("%senpai_id%", senpai.getUser().getId());
+        e.getChannel().sendMessage(Messages.SPIN_WHEEL.getMessage(e.getGuild(), placeholders).build()).complete();
     }
     
     public static Senpai getRandomSenpai() {
