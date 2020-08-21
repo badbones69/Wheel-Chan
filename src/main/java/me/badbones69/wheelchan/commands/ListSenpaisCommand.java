@@ -9,9 +9,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.awt.*;
 import java.time.Instant;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 public class ListSenpaisCommand {
     
@@ -36,13 +33,11 @@ public class ListSenpaisCommand {
     }
     
     public static Field[] getSenpaiField(Guild guild) {
-        Map<String, String> senpais = wheelChan.getSenpais().stream().collect(Collectors.toMap(ListSenpaisCommand :: getCooldown, ListSenpaisCommand :: getName, (a, b) -> b));
-        TestCommand.sortByValue(senpais, false);
         String senpaiNames = "";
         String senpaiCooldowns = "";
-        for (Entry<String, String> entry : senpais.entrySet()) {
-            senpaiNames += entry.getValue() + "\n";
-            senpaiCooldowns += entry.getKey() + "\n";
+        for (Senpai senpai : wheelChan.getSenpais()) {
+            senpaiNames += getName(senpai) + "\n";
+            senpaiCooldowns += getCooldown(senpai) + "\n";
         }
         return new Field[] {new Field("**__Senpais:__**", wheelChan.replaceEmotes(senpaiNames, guild), true), new Field("**__Spawn Pack Cooldowns:__**", wheelChan.replaceEmotes(senpaiCooldowns, guild), true)};
     }
