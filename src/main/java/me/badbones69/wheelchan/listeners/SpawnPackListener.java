@@ -13,19 +13,21 @@ public class SpawnPackListener extends ListenerAdapter {
     
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
-        User user = e.getAuthor();
-        Message message = e.getMessage();
-        if (wheelChan.isShoob(user)) {
-            if (isSpawnPackMessage(message.getContentDisplay())) {
-                User mentioned = message.getMentionedUsers().get(0);
-                if (wheelChan.isSenpai(mentioned)) {
-                    wheelChan.getSenpai(mentioned).newCooldown();
-                }
-            } else if (isSpawnPackDenyMessage(message.getContentDisplay())) {
-                User mentioned = message.getMentionedUsers().get(0);
-                Senpai senpai = wheelChan.getSenpai(mentioned);
-                if (wheelChan.isSenpai(mentioned) && senpai.isCooldownOver()) {
-                    senpai.setUnknownCooldown();
+        if (!wheelChan.isTesting()) {
+            User user = e.getAuthor();
+            Message message = e.getMessage();
+            if (wheelChan.isShoob(user)) {
+                if (isSpawnPackMessage(message.getContentDisplay())) {
+                    User mentioned = message.getMentionedUsers().get(0);
+                    if (wheelChan.isSenpai(mentioned)) {
+                        wheelChan.getSenpai(mentioned).newCooldown();
+                    }
+                } else if (isSpawnPackDenyMessage(message.getContentDisplay())) {
+                    User mentioned = message.getMentionedUsers().get(0);
+                    Senpai senpai = wheelChan.getSenpai(mentioned);
+                    if (wheelChan.isSenpai(mentioned) && senpai.isCooldownOver()) {
+                        senpai.setUnknownCooldown();
+                    }
                 }
             }
         }

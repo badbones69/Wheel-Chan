@@ -28,6 +28,7 @@ public class WheelChan {
     private List<Sensei> senseis = new ArrayList<>();
     private List<Senpai> senpais = new ArrayList<>();
     private List<String> commandChannels = new ArrayList<>();
+    private boolean testing = false;
     
     public static WheelChan getInstance() {
         return instance;
@@ -55,6 +56,10 @@ public class WheelChan {
     
     public JDA getJDA() {
         return jda;
+    }
+    
+    public boolean isTesting() {
+        return testing;
     }
     
     public List<Sensei> getSenseis() {

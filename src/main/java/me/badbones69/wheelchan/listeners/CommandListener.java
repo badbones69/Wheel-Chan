@@ -28,62 +28,62 @@ public class CommandListener extends ListenerAdapter {
             if (!subCommand.isEmpty()) {
                 switch (subCommand.toLowerCase()) {
                     case "help":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             HelpCommand.runCommand(e);
                         }
                         return;
                     case "reload":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             ReloadCommand.runCommand(e);
                         }
                         return;
                     case "s":
                     case "spin":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             SpinCommand.runCommand(e);
                         }
                         return;
                     case "l":
                     case "list":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             ListSenpaisCommand.runCommand(e);
                         }
                         return;
                     case "ls":
                     case "listsensei":
                     case "listsenseis":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             ListSenseisCommand.runCommand(e);
                         }
                         return;
                     case "c":
                     case "clear":
                     case "removeall":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             ClearCommand.runCommand(e);
                         }
                         return;
                     case "as":
                     case "addsensei":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             AddSenseiCommand.runCommand(e);
                         }
                         return;
                     case "rs":
                     case "removesensei":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             RemoveSenseiCommand.runCommand(e);
                         }
                         return;
                     case "a":
                     case "add":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             AddSenpaiCommand.runCommand(e);
                         }
                         return;
                     case "r":
                     case "remove":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             RemoveSenpaiCommand.runCommand(e);
                         }
                         return;
@@ -110,25 +110,25 @@ public class CommandListener extends ListenerAdapter {
                     case "m":
                     case "miss":
                     case "missed":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             TrackerMissedCommand.runCommand(e);
                         }
                         return;
                     case "stat":
                     case "stats":
-                        if (isCommandChannel) {
+                        if (isCommandChannel && !wheelChan.isTesting()) {
                             TrackerStatsCommand.runCommand(e);
                         }
-//                        return;
-//                    case "test":
-//                        if (isCommandChannel) {
-//                            TestCommand.runCommand(e);
-//                        }
-//                        return;
-//                    case "save":
-//                        if (isCommandChannel) {
-//                            TestCommand.runSaveCommand(e);
-//                        }
+                        return;
+                    case "test":
+                        if (isCommandChannel && wheelChan.isTesting()) {
+                            TestCommand.runCommand(e);
+                        }
+                        return;
+                    case "save":
+                        if (isCommandChannel && wheelChan.isTesting()) {
+                            TestCommand.runSaveCommand(e);
+                        }
                 }
             }
         }
