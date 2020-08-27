@@ -4,7 +4,6 @@ import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.objects.Senpai;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.awt.*;
@@ -16,49 +15,40 @@ public class ListSenpaisCommand {
     
     public static void runCommand(MessageReceivedEvent e) {
         Guild guild = e.getGuild();
-        Field[] senpaiFields = getSenpaiField(guild);
         EmbedBuilder embed = new EmbedBuilder()
         .setTitle(wheelChan.replaceEmotes("Here is a list of my current Senpais :teriwoke:", guild))
         .setColor(Color.GREEN)
-        .addField(senpaiFields[0])
-        .addField(senpaiFields[1])
-        .addField("",
-        wheelChan.replaceEmotes(
-        "Legend:\n" +
-        ":agree: Spawn Pack is available.\n" +
-        ":disagree: Spawn Pack still in cooldown.\n" +
-        ":Bully: Spawn Pack cooldown unknown.", guild), false)
+        .setDescription(wheelChan.replaceEmotes(
+        "**__Senpais and SP Cooldowns:__**\n" +
+        getSenpaiField() +
+        "\n" +
+        "**__Emote Legend__**:\n" +
+        ":agree: SP is available.\n" +
+        ":disagree: SP still in cooldown.\n" +
+        ":Bully: SP cooldown unknown.", guild))
         .setTimestamp(Instant.now());
         e.getChannel().sendMessage(embed.build()).complete();
     }
     
-    public static Field[] getSenpaiField(Guild guild) {
-        String senpaiNames = "";
-        String senpaiCooldowns = "";
+    public static String getSenpaiField() {
+        String senpaiList = "";
         for (Senpai senpai : wheelChan.getSenpais()) {
-            senpaiNames += getName(senpai) + "\n";
-            senpaiCooldowns += getCooldown(senpai) + "\n";
+            senpaiList += "- " + getName(senpai) + getCooldown(senpai) + "\n";
         }
-        return new Field[] {new Field("**__Senpais:__**", wheelChan.replaceEmotes(senpaiNames, guild), true), new Field("**__Spawn Pack Cooldowns:__**", wheelChan.replaceEmotes(senpaiCooldowns, guild), true)};
+        return senpaiList;
     }
     
     private static String getName(Senpai senpai) {
         //Was getting weird NPE from this line so needed to add some checks.
-        return "`" + (senpai != null && senpai.getUser() != null ? senpai.getUser().getName() : senpai.getCacheName()) + "`";
+        return getEmote(senpai) + " **" + (senpai != null && senpai.getUser() != null ? senpai.getUser().getName() : senpai.getCacheName()) + "**";
+    }
+    
+    private static String getEmote(Senpai senpai) {
+        return senpai.hasCooldown() ? (senpai.isCooldownOver() ? ":agree:" : ":disagree:") : ":Bully:";
     }
     
     private static String getCooldown(Senpai senpai) {
-        String cooldownString;
-        if (senpai.hasCooldown()) {
-            if (senpai.isCooldownOver()) {
-                cooldownString = ":agree:";
-            } else {
-                cooldownString = ":disagree: `" + senpai.getCooldownString() + "`";
-            }
-        } else {
-            cooldownString = ":Bully:";
-        }
-        return cooldownString;
+        return senpai.hasCooldown() && !senpai.isCooldownOver() ? ": `" + senpai.getCooldownString() + "`" : "";
     }
     
 }
