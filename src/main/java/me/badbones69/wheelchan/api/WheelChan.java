@@ -3,7 +3,7 @@ package me.badbones69.wheelchan.api;
 import me.badbones69.wheelchan.api.FileManager.Files;
 import me.badbones69.wheelchan.api.enums.Messages;
 import me.badbones69.wheelchan.api.objects.Senpai;
-import me.badbones69.wheelchan.api.objects.Sensei;
+import me.badbones69.wheelchan.api.objects.Server;
 import me.badbones69.wheelchan.listeners.CardSpawnListener;
 import me.badbones69.wheelchan.listeners.CommandListener;
 import me.badbones69.wheelchan.listeners.SpawnPackListener;
@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
@@ -25,109 +24,60 @@ public class WheelChan {
     
     private static WheelChan instance = new WheelChan();
     private JDA jda;
-    private List<Sensei> senseis = new ArrayList<>();
+    private List<Server> serverList = new ArrayList<>();
     private List<Senpai> senpais = new ArrayList<>();
-    private List<String> commandChannels = new ArrayList<>();
     private boolean testing = false;
     
     public static WheelChan getInstance() {
         return instance;
     }
     
-    public void load() {
+    public void load() throws InterruptedException {
         loadJDA();
         Messages.loadMessages();
-        senseis.clear();
-        senpais.clear();
-        commandChannels.clear();
+        serverList.clear();
+        jda.awaitReady();
+        jda.getGuildCache().forEach(guild -> serverList.add(new Server(guild.getId())));
         FileConfiguration data = Files.DATA.getFile();
-        data.getStringList("Senseis").forEach(id -> senseis.add(new Sensei(id)));
-        if (data.contains("Senpais")) {
-            if (data.getStringList("Senpais").isEmpty()) {
-                for (String senpaiID : data.getConfigurationSection("Senpais").getKeys(false)) {
-                    senpais.add(new Senpai(senpaiID, data.getLong("Senpais." + senpaiID + ".Cooldown"),
-                    data.getString("Senpais." + senpaiID + ".Name", "Failed to get user!")));
-                }
-            }
+        if (data.contains("Senpais") && data.getStringList("Senpais").isEmpty()) {
+            data.getConfigurationSection("Senpais").getKeys(false).forEach(senpaiID ->
+            senpais.add(new Senpai(senpaiID, data.getLong("Senpais." + senpaiID + ".Cooldown"),
+            data.getString("Senpais." + senpaiID + ".Name", "Failed to get user!"))));
         }
-        commandChannels.addAll(data.getStringList("Command-Channels"));
-        CardTracker.getInstance().load();
     }
     
     public JDA getJDA() {
         return jda;
     }
     
-    public boolean isTesting() {
-        return testing;
+    public List<Server> getServerList() {
+        return serverList;
     }
     
-    public List<Sensei> getSenseis() {
-        return senseis;
+    public Server getServer(Guild guild) {
+        return getServer(guild.getId());
     }
     
-    public List<String> getSenseiIDs() {
-        return senseis.stream().map(Sensei :: getID).collect(Collectors.toList());
-    }
-    
-    public void addSensei(User sensei) {
-        addSensei(sensei.getId());
-    }
-    
-    public void addSenseis(List<User> senseiList) {
-        boolean newSensei = false;
-        for (User sensei : senseiList) {
-            if (!isSensei(sensei.getId())) {
-                senseis.add(new Sensei(sensei.getId()));
-                newSensei = true;
-            }
+    public Server getServer(String guildID) {
+        Server server = serverList.stream().filter(serv -> serv.getGuildID().equals(guildID)).findFirst().orElse(null);
+        if (server == null) {
+            server = newServer(jda.getGuildById(guildID));
         }
-        if (newSensei) {
-            saveData();
-        }
+        return server;
     }
     
-    public void addSensei(String senseiID) {
-        senseis.add(new Sensei(senseiID));
-        saveData();
-    }
-    
-    public void removeSensei(User sensei) {
-        removeSensei(sensei.getId());
-    }
-    
-    public void removeSensei(String senseiID) {
-        senseis.remove(getSensei(senseiID));
-        saveData();
-    }
-    
-    public boolean isSensei(User sensei, Guild guild) {
-        return isSensei(sensei.getId(), guild);
-    }
-    
-    public boolean isSensei(String senseiID, Guild guild) {
-        return isSensei(senseiID) || guild.getOwnerId().equals(senseiID);
-    }
-    
-    public boolean isSensei(User sensei) {
-        return isSensei(sensei.getId());
-    }
-    
-    public boolean isSensei(String senseiID) {
-        return getSensei(senseiID) != null;
-    }
-    
-    public Sensei getSensei(String senseiID) {
-        for (Sensei sensei : senseis) {
-            if (sensei.getID().equals(senseiID)) {
-                return sensei;
-            }
-        }
-        return null;
+    public Server newServer(Guild guild) {
+        Server server = new Server(guild.getId(), true);
+        serverList.add(server);
+        return server;
     }
     
     public List<Senpai> getSenpais() {
         return senpais;
+    }
+    
+    public List<Senpai> getSenpais(Server server) {
+        return senpais.stream().filter(senpai -> server.getGuild().isMember(senpai.getUser())).collect(Collectors.toList());
     }
     
     public List<String> getSenpaiNames() {
@@ -140,12 +90,12 @@ public class WheelChan {
     
     public void clearAllSenpais() {
         senpais.clear();
-        saveData();
+        saveSenpais();
     }
     
     public void addSenpai(User senpai) {
         senpais.add(new Senpai(senpai.getId(), senpai.getName()));
-        saveData();
+        saveSenpais();
     }
     
     public void addSenpais(List<User> senpaiList) {
@@ -157,7 +107,7 @@ public class WheelChan {
             }
         }
         if (newSenpai) {
-            saveData();
+            saveSenpais();
         }
     }
     
@@ -170,7 +120,7 @@ public class WheelChan {
         //Got a NPE from here so fixing with a check.
         if (senpai != null) {
             senpais.remove(senpai);
-            saveData();
+            saveSenpais();
         }
     }
     
@@ -187,50 +137,7 @@ public class WheelChan {
     }
     
     public Senpai getSenpai(String senpaiID) {
-        for (Senpai senpai : senpais) {
-            if (senpai.getID().equals(senpaiID)) {
-                return senpai;
-            }
-        }
-        return null;
-    }
-    
-    public void removeCommandChannel(MessageChannel channel) {
-        removeCommandChannel(channel.getId());
-    }
-    
-    public void removeCommandChannel(String channelID) {
-        commandChannels.remove(channelID);
-        saveData();
-    }
-    
-    public void addCommandChannel(MessageChannel channel) {
-        addCommandChannel(channel.getId());
-    }
-    
-    public void addCommandChannel(String channelID) {
-        commandChannels.add(channelID);
-        saveData();
-    }
-    
-    public boolean isCommandChannel(MessageChannel channel) {
-        return isCommandChannel(channel.getId());
-    }
-    
-    public boolean isCommandChannel(String channel) {
-        return commandChannels.contains(channel);
-    }
-    
-    private void loadJDA() {
-        if (jda == null) {
-            try {
-                jda = new JDABuilder(AccountType.BOT)
-                .setToken(Files.CONFIG.getFile().getString("Token"))
-                .addEventListeners(new CommandListener(), new SpawnPackListener(), new CardSpawnListener()).build();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        return senpais.stream().filter(senpai -> senpai.getID().equals(senpaiID)).findFirst().orElse(null);
     }
     
     public void saveSenpais() {
@@ -250,16 +157,20 @@ public class WheelChan {
         Files.DATA.saveFile();
     }
     
-    public void saveData() {
-        FileConfiguration data = Files.DATA.getFile();
-        data.set("Command-Channels", commandChannels);
-        data.set("Senpais", null);
-        for (Senpai senpai : senpais) {
-            data.set("Senpais." + senpai.getID() + ".Name", senpai.getUser().getName());
-            data.set("Senpais." + senpai.getID() + ".Cooldown", senpai.getSpawnPackCooldown());
+    public boolean isTesting() {
+        return testing;
+    }
+    
+    private void loadJDA() {
+        if (jda == null) {
+            try {
+                jda = new JDABuilder(AccountType.BOT)
+                .setToken(Files.CONFIG.getFile().getString("Token"))
+                .addEventListeners(new CommandListener(), new SpawnPackListener(), new CardSpawnListener()).build();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        data.set("Senseis", getSenseiIDs());
-        Files.DATA.saveFile();
     }
     
     public boolean isShoob(User user) {

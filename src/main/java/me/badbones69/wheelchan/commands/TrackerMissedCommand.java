@@ -3,6 +3,7 @@ package me.badbones69.wheelchan.commands;
 import me.badbones69.wheelchan.api.CardTracker;
 import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.enums.Messages;
+import me.badbones69.wheelchan.api.objects.Server;
 import me.badbones69.wheelchan.api.objects.SpawnCard;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -15,10 +16,9 @@ import java.util.*;
 public class TrackerMissedCommand {
     
     private static WheelChan wheelChan = WheelChan.getInstance();
-    private static CardTracker cardTracker = CardTracker.getInstance();
     
-    public static void runCommand(MessageReceivedEvent e) {
-        Map<String, String> placeholders = getPlaceholders();
+    public static void runCommand(MessageReceivedEvent e, Server server) {
+        Map<String, String> placeholders = getPlaceholders(server);
         EmbedBuilder embed = new EmbedBuilder()
         .setTitle("List of all recently missed cards.")
         .setColor(Color.RED)
@@ -68,7 +68,8 @@ public class TrackerMissedCommand {
         e.getChannel().sendMessage(embed.build()).complete();
     }
     
-    private static Map<String, String> getPlaceholders() {
+    private static Map<String, String> getPlaceholders(Server server) {
+        CardTracker cardTracker = server.getCardTracker();
         Map<String, String> placeholders = new HashMap<>();
         for (int tier = 1; tier < 8; tier++) {
             List<SpawnCard> spawnCards = new ArrayList<>(cardTracker.getRecentMissedCards(tier));

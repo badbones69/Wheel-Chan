@@ -2,6 +2,7 @@ package me.badbones69.wheelchan.commands;
 
 import me.badbones69.wheelchan.api.FileManager.Files;
 import me.badbones69.wheelchan.api.WheelChan;
+import me.badbones69.wheelchan.api.objects.Server;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -25,7 +26,7 @@ public class TestCommand {
     private static int messagedChecked = 0;
     private static int spawnCards = 0;
     
-    public static void runSaveCommand(MessageReceivedEvent e) {
+    public static void runSaveCommand(MessageReceivedEvent e, Server server) {
         FileConfiguration data = Files.DATA.getFile();
         data.set("Map-Last-Run-Start", firstMessage.getChannel().getId() + ":" + firstMessage.getId());
         data.set("Map-Cache", convertMap());
@@ -46,11 +47,11 @@ public class TestCommand {
         return list;
     }
     
-    public static void runCommand(MessageReceivedEvent e) {
+    public static void runCommand(MessageReceivedEvent e, Server server) {
         MessageChannel channel = e.getChannel();
         Guild guild = e.getGuild();
         EmbedBuilder embed;
-        if (wheelChan.isSensei(e.getAuthor(), e.getGuild())) {
+        if (server.isSensei(e.getAuthor(), e.getGuild())) {
             StringBuilder message = new StringBuilder();
             if (lastMessage == null || !errored) {
                 lastMessage = e.getMessage();

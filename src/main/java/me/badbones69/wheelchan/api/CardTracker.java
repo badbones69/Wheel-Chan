@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 public class CardTracker {
     
-    private static CardTracker instance = new CardTracker();
+    private String path;
     private SpawnCard latestSpawnCard;
     private SpawnCard latestPackCard;
     private int totalSpawn;
@@ -22,25 +22,45 @@ public class CardTracker {
     private Map<Integer, Integer> spawnAmount = new HashMap<>();
     private Map<Integer, Integer> missedAmount = new HashMap<>();
     
-    public static CardTracker getInstance() {
-        return instance;
-    }
-    
-    public void load() {
+    public void load(String guildID) {
+        path = "Servers." + guildID + ".Tracker.";
         latestSpawnCard = new SpawnCard();
         latestPackCard = new SpawnCard();
         FileConfiguration data = Files.DATA.getFile();
-        loggingChannelID = data.getString("Tracker.Logging-Channel", "");
-        totalSpawn = data.getInt("Tracker.Total-Spawns");
+        loggingChannelID = data.getString(path + "Logging-Channel", "");
+        totalSpawn = data.getInt(path + "Total-Spawns");
         IntStream.range(1, 8).forEachOrdered(tier -> {
-            spawnAmount.put(tier, data.getInt("Tracker.Spawned." + tier));
-            missedAmount.put(tier, data.getInt("Tracker.Missed." + tier));
-            recentMissedCards.put(tier, data.getStringList("Tracker.Recent-Missed." + tier).stream().map(SpawnCard :: new).collect(Collectors.toList()));
+            spawnAmount.put(tier, data.getInt(path + "Spawned." + tier));
+            missedAmount.put(tier, data.getInt(path + "Missed." + tier));
+            recentMissedCards.put(tier, data.getStringList(path + "Recent-Missed." + tier).stream().map(SpawnCard :: new).collect(Collectors.toList()));
         });
         System.out.println("Total-Spawns: " + totalSpawn);
         spawnAmount.forEach((tier, amount) -> System.out.println("Spawned Tier " + tier + ": " + amount));
         missedAmount.forEach((tier, amount) -> System.out.println("Missed Tier " + tier + ": " + amount));
         recentMissedCards.forEach((tier, cards) -> System.out.println("Recently Missed Tier " + tier + ": " + cards));
+    }
+    
+    public void load(String guildID, boolean newServer) {
+        if (newServer) {
+            path = "Servers." + guildID + ".Tracker.";
+            latestSpawnCard = new SpawnCard();
+            latestPackCard = new SpawnCard();
+            FileConfiguration data = Files.DATA.getFile();
+            loggingChannelID = data.getString(path + "Logging-Channel", "");
+            totalSpawn = 0;
+            IntStream.range(1, 8).forEachOrdered(tier -> {
+                spawnAmount.put(tier, 0);
+                missedAmount.put(tier, 0);
+                recentMissedCards.put(tier, data.getStringList(path + "Recent-Missed." + tier).stream().map(SpawnCard :: new).collect(Collectors.toList()));
+            });
+            System.out.println("Total-Spawns: " + totalSpawn);
+            spawnAmount.forEach((tier, amount) -> System.out.println("Spawned Tier " + tier + ": " + amount));
+            missedAmount.forEach((tier, amount) -> System.out.println("Missed Tier " + tier + ": " + amount));
+            recentMissedCards.forEach((tier, cards) -> System.out.println("Recently Missed Tier " + tier + ": " + cards));
+            saveTracker();
+        } else {
+            load(guildID);
+        }
     }
     
     public void newSpawnCard(SpawnCard spawnCard) {
@@ -75,11 +95,11 @@ public class CardTracker {
     
     public void saveTracker() {
         FileConfiguration data = Files.DATA.getFile();
-        data.set("Tracker.Logging-Channel", loggingChannelID);
-        data.set("Tracker.Total-Spawns", totalSpawn);
-        spawnAmount.forEach((key, value) -> data.set("Tracker.Spawned." + key, value));
-        missedAmount.forEach((key, value) -> data.set("Tracker.Missed." + key, value));
-        recentMissedCards.forEach((tier, cards) -> data.set("Tracker.Recent-Missed." + tier, cards.stream().map(SpawnCard :: toString).collect(Collectors.toList())));
+        data.set(path + "Logging-Channel", loggingChannelID);
+        data.set(path + "Total-Spawns", totalSpawn);
+        spawnAmount.forEach((key, value) -> data.set(path + "Spawned." + key, value));
+        missedAmount.forEach((key, value) -> data.set(path + "Missed." + key, value));
+        recentMissedCards.forEach((tier, cards) -> data.set(path + "Recent-Missed." + tier, cards.stream().map(SpawnCard :: toString).collect(Collectors.toList())));
         Files.DATA.saveFile();
     }
     
@@ -113,6 +133,7 @@ public class CardTracker {
     
     public void setLoggingChannelID(String loggingChannelID) {
         this.loggingChannelID = loggingChannelID;
+        saveTracker();
     }
     
 }

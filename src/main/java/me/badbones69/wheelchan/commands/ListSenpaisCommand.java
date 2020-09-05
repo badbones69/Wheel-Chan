@@ -2,6 +2,7 @@ package me.badbones69.wheelchan.commands;
 
 import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.objects.Senpai;
+import me.badbones69.wheelchan.api.objects.Server;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -13,14 +14,14 @@ public class ListSenpaisCommand {
     
     private static WheelChan wheelChan = WheelChan.getInstance();
     
-    public static void runCommand(MessageReceivedEvent e) {
+    public static void runCommand(MessageReceivedEvent e, Server server) {
         Guild guild = e.getGuild();
         EmbedBuilder embed = new EmbedBuilder()
         .setTitle(wheelChan.replaceEmotes("Here is a list of my current Senpais :teriwoke:", guild))
         .setColor(Color.GREEN)
         .setDescription(wheelChan.replaceEmotes(
         "**__Senpais and SP Cooldowns:__**\n" +
-        getSenpaiField() +
+        getSenpaiField(server) +
         "\n" +
         "**__Emote Legend__**:\n" +
         ":agree: SP is available.\n" +
@@ -30,9 +31,9 @@ public class ListSenpaisCommand {
         e.getChannel().sendMessage(embed.build()).complete();
     }
     
-    public static String getSenpaiField() {
+    public static String getSenpaiField(Server server) {
         String senpaiList = "";
-        for (Senpai senpai : wheelChan.getSenpais()) {
+        for (Senpai senpai : wheelChan.getSenpais(server)) {
             senpaiList += "- " + getName(senpai) + getCooldown(senpai) + "\n";
         }
         return senpaiList;

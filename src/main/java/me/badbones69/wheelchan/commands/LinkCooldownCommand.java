@@ -3,6 +3,7 @@ package me.badbones69.wheelchan.commands;
 import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.enums.Messages;
 import me.badbones69.wheelchan.api.objects.Senpai;
+import me.badbones69.wheelchan.api.objects.Server;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -17,11 +18,11 @@ public class LinkCooldownCommand {
     
     private static WheelChan wheelChan = WheelChan.getInstance();
     
-    public static void runCommand(MessageReceivedEvent e) {
+    public static void runCommand(MessageReceivedEvent e, Server server) {
         User user = e.getAuthor();
         Guild guild = e.getGuild();
         EmbedBuilder embed;
-        if (wheelChan.isSensei(user, guild)) {
+        if (server.isSensei(user, guild)) {
             Message message = grabMessage(e.getMessage().getContentDisplay(), e.getChannel());
             User mentioned = message.getMentionedUsers().isEmpty() ? null : message.getMentionedUsers().get(0);
             if (message != null && message.getAuthor().isBot() && message.getAuthor().getId().equals("673362753489993749") && isSpawnPackMessage(message.getContentDisplay()) && wheelChan.isSenpai(mentioned)) {

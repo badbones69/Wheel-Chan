@@ -4,6 +4,7 @@ import me.badbones69.wheelchan.api.CardTracker;
 import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.objects.ClaimedCard;
 import me.badbones69.wheelchan.api.objects.DespawnCard;
+import me.badbones69.wheelchan.api.objects.Server;
 import me.badbones69.wheelchan.api.objects.SpawnCard;
 import me.badbones69.wheelchan.events.SpawnTimer;
 import net.dv8tion.jda.api.entities.Message;
@@ -18,13 +19,21 @@ import java.time.Instant;
 public class CardSpawnListener extends ListenerAdapter {
     
     private WheelChan wheelChan = WheelChan.getInstance();
-    private CardTracker cardTracker = CardTracker.getInstance();
     
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
+        Server server = wheelChan.getServer(e.getGuild());
+        CardTracker cardTracker = server.getCardTracker();
         User user = e.getAuthor();
         Message message = e.getMessage();
-        MessageChannel logging = e.getGuild().getTextChannelById(cardTracker.getLoggingChannelID());
+        MessageChannel logging;
+        try {
+            logging = e.getGuild().getTextChannelById(server.getCardTracker().getLoggingChannelID());
+        } catch (Exception exception) {
+            logging = null;
+        }
+        boolean isLogging = !wheelChan.isTesting() && logging != null;
+        String serverName = server.getServerName() + " ";
         if (wheelChan.isShoob(user)) {
             SpawnCard card;
             if (!message.getEmbeds().isEmpty()) {
@@ -34,12 +43,12 @@ public class CardSpawnListener extends ListenerAdapter {
                     if (SpawnPackListener.isSpawnPackMessage(message.getContentDisplay())) {
                         card = new SpawnCard(embed);
                         cardTracker.newSpawnpackCard(card);
-                        System.out.println("Spawn Pack: " + card);
+                        System.out.println(serverName + "Spawn Pack: " + card);
                     } else {
                         card = new SpawnCard(embed);
                         cardTracker.newSpawnCard(card);
                         if (!wheelChan.isTesting()) new SpawnTimer(e.getChannel(), card);
-                        System.out.println("Spawned: " + card);
+                        System.out.println(serverName + "Spawned: " + card);
                     }
                     //Card is claimed
                 } else if (embed.getDescription() != null && isClaimedMessage(embed.getDescription())) {
@@ -47,25 +56,25 @@ public class CardSpawnListener extends ListenerAdapter {
                     if (embed.getDescription().toLowerCase().contains(cardTracker.getLatestSpawnCard().getCharacterName().toLowerCase())) {
                         cardTracker.setSpawnCardClaim(true);
                         card = cardTracker.getLatestSpawnCard();
-                        System.out.println("Claimed: " + card);
+                        System.out.println(serverName + "Claimed: " + card);
                         User claimed = wheelChan.getJDA().getUserById(embed.getDescription().split("<@")[1].split(">")[0]);
                         int issue = Integer.parseInt(embed.getDescription().split("#: ")[1].split("\\.")[0].replace("`", ""));
-                        if (!wheelChan.isTesting()) logging.sendMessage(new ClaimedCard(card.getCardURL(), card, issue, claimed, true).getMessage().getEmbedMessage(e.getGuild()).setTimestamp(Instant.now()).build()).complete();
+                        if (isLogging) logging.sendMessage(new ClaimedCard(card.getCardURL(), card, issue, claimed, true).getMessage().getEmbedMessage(e.getGuild()).setTimestamp(Instant.now()).build()).complete();
                         //Card is spawn pack
                     } else if (embed.getDescription().toLowerCase().contains(cardTracker.getLatestPackCard().getCharacterName().toLowerCase())) {
                         card = cardTracker.getLatestPackCard();
-                        System.out.println("Claimed Spawn Pack: " + card);
+                        System.out.println(serverName + "Claimed Spawn Pack: " + card);
                         User claimed = wheelChan.getJDA().getUserById(embed.getDescription().split("<@")[1].split(">")[0]);
                         int issue = Integer.parseInt(embed.getDescription().split("#: ")[1].split("\\.")[0].replace("`", ""));
-                        if (!wheelChan.isTesting()) logging.sendMessage(new ClaimedCard(card.getCardURL(), card, issue, claimed, false).getMessage().getEmbedMessage(e.getGuild()).setTimestamp(Instant.now()).build()).complete();
+                        if (isLogging) logging.sendMessage(new ClaimedCard(card.getCardURL(), card, issue, claimed, false).getMessage().getEmbedMessage(e.getGuild()).setTimestamp(Instant.now()).build()).complete();
                     }
                 }
                 //Card despawns
             } else if (isDespawnMessage(message.getContentDisplay())) {
                 cardTracker.setSpawnCardClaim(false);
                 card = cardTracker.getLatestSpawnCard();
-                System.out.println("Despawned: " + card);
-                if (!wheelChan.isTesting()) logging.sendMessage(new DespawnCard(card.getCardURL(), card).getMessage().getEmbedMessage(e.getGuild()).setTimestamp(Instant.now()).build()).complete();
+                System.out.println(serverName + "Despawned: " + card);
+                if (isLogging) logging.sendMessage(new DespawnCard(card.getCardURL(), card).getMessage().getEmbedMessage(e.getGuild()).setTimestamp(Instant.now()).build()).complete();
             }
         }
     }

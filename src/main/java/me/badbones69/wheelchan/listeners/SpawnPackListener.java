@@ -2,6 +2,7 @@ package me.badbones69.wheelchan.listeners;
 
 import me.badbones69.wheelchan.api.WheelChan;
 import me.badbones69.wheelchan.api.objects.Senpai;
+import me.badbones69.wheelchan.api.objects.Server;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,6 +15,7 @@ public class SpawnPackListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
         if (!wheelChan.isTesting()) {
+            Server server = wheelChan.getServer(e.getGuild());
             User user = e.getAuthor();
             Message message = e.getMessage();
             if (wheelChan.isShoob(user)) {

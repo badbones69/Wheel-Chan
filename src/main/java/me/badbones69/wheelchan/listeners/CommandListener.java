@@ -1,6 +1,7 @@
 package me.badbones69.wheelchan.listeners;
 
 import me.badbones69.wheelchan.api.WheelChan;
+import me.badbones69.wheelchan.api.objects.Server;
 import me.badbones69.wheelchan.commands.*;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
@@ -19,115 +20,117 @@ public class CommandListener extends ListenerAdapter {
     
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
+        Server server = wheelChan.getServer(e.getGuild());
         User user = e.getAuthor();
         Message message = e.getMessage();
         MessageChannel channel = e.getChannel();
-        boolean isCommandChannel = wheelChan.isCommandChannel(channel);
+        boolean isCommandChannel = server.isCommandChannel(channel);
+        boolean isTesting = false;
         if (!user.isBot() && e.isFromType(ChannelType.TEXT) && isCommand(message)) {
             String subCommand = getSubCommand(message);
             if (!subCommand.isEmpty()) {
                 switch (subCommand.toLowerCase()) {
                     case "help":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            HelpCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            HelpCommand.runCommand(e, server);
                         }
                         return;
                     case "reload":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            ReloadCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            ReloadCommand.runCommand(e, server);
                         }
                         return;
                     case "s":
                     case "spin":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            SpinCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            SpinCommand.runCommand(e, server);
                         }
                         return;
                     case "l":
                     case "list":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            ListSenpaisCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            ListSenpaisCommand.runCommand(e, server);
                         }
                         return;
                     case "ls":
                     case "listsensei":
                     case "listsenseis":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            ListSenseisCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            ListSenseisCommand.runCommand(e, server);
                         }
                         return;
-                    case "c":
-                    case "clear":
-                    case "removeall":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            ClearCommand.runCommand(e);
-                        }
-                        return;
+//                    case "c":
+//                    case "clear":
+//                    case "removeall":
+//                        if (isCommandChannel && !isTesting) {
+//                            ClearCommand.runCommand(e, server);
+//                        }
+//                        return;
                     case "as":
                     case "addsensei":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            AddSenseiCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            AddSenseiCommand.runCommand(e, server);
                         }
                         return;
                     case "rs":
                     case "removesensei":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            RemoveSenseiCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            RemoveSenseiCommand.runCommand(e, server);
                         }
                         return;
                     case "a":
                     case "add":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            AddSenpaiCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            AddSenpaiCommand.runCommand(e, server);
                         }
                         return;
                     case "r":
                     case "remove":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            RemoveSenpaiCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            RemoveSenpaiCommand.runCommand(e, server);
                         }
                         return;
                     case "sl":
                     case "setlog":
                     case "setlogging":
-                        SetLoggingChannel.runCommand(e);
+                        SetLoggingChannel.runCommand(e, server);
                         return;
                     case "ac":
                     case "addchannel":
-                        AddChannelCommand.runCommand(e);
+                        AddChannelCommand.runCommand(e, server);
                         return;
                     case "rc":
                     case "removechannel":
-                        RemoveChannelCommand.runCommand(e);
+                        RemoveChannelCommand.runCommand(e, server);
                         return;
                     case "link":
                     case "lc":
                     case "linkcooldown":
                         if (isCommandChannel) {
-                            LinkCooldownCommand.runCommand(e);
+                            LinkCooldownCommand.runCommand(e, server);
                         }
                         return;
                     case "m":
                     case "miss":
                     case "missed":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            TrackerMissedCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            TrackerMissedCommand.runCommand(e, server);
                         }
                         return;
                     case "stat":
                     case "stats":
-                        if (isCommandChannel && !wheelChan.isTesting()) {
-                            TrackerStatsCommand.runCommand(e);
+                        if (isCommandChannel && !isTesting) {
+                            TrackerStatsCommand.runCommand(e, server);
                         }
                         return;
                     case "test":
-                        if (isCommandChannel && wheelChan.isTesting()) {
-                            TestCommand.runCommand(e);
+                        if (isCommandChannel && isTesting) {
+                            TestCommand.runCommand(e, server);
                         }
                         return;
                     case "save":
-                        if (isCommandChannel && wheelChan.isTesting()) {
-                            TestCommand.runSaveCommand(e);
+                        if (isCommandChannel && isTesting) {
+                            TestCommand.runSaveCommand(e, server);
                         }
                 }
             }

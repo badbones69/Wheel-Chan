@@ -2,6 +2,7 @@ package me.badbones69.wheelchan.commands;
 
 import me.badbones69.wheelchan.api.CardTracker;
 import me.badbones69.wheelchan.api.enums.Messages;
+import me.badbones69.wheelchan.api.objects.Server;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -13,10 +14,8 @@ import java.util.stream.IntStream;
 
 public class TrackerStatsCommand {
     
-    private static CardTracker cardTracker = CardTracker.getInstance();
-    
-    public static void runCommand(MessageReceivedEvent e) {
-        Map<String, String> placeholders = getPlaceholders();
+    public static void runCommand(MessageReceivedEvent e, Server server) {
+        Map<String, String> placeholders = getPlaceholders(server);
         EmbedBuilder embed = new EmbedBuilder()
         .setTitle("Information of all spawned and missed cards.")
         .setColor(Color.CYAN)
@@ -43,7 +42,8 @@ public class TrackerStatsCommand {
         e.getChannel().sendMessage(embed.build()).complete();
     }
     
-    private static Map<String, String> getPlaceholders() {
+    private static Map<String, String> getPlaceholders(Server server) {
+        CardTracker cardTracker = server.getCardTracker();
         Map<String, String> placeholders = new HashMap<>();
         placeholders.put("%total_spawned_cards%", cardTracker.getTotalSpawn() + "");
         IntStream.range(1, 8).forEachOrdered(tier -> {
