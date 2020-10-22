@@ -13,6 +13,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -77,7 +79,7 @@ public class WheelChan {
     }
     
     public List<Senpai> getSenpais(Server server) {
-        return senpais.stream().filter(senpai -> server.getGuild().isMember(senpai.getUser())).collect(Collectors.toList());
+        return senpais.stream().filter(senpai -> senpai != null && senpai.getUser() != null && server.getGuild().isMember(senpai.getUser())).collect(Collectors.toList());
     }
     
     public List<String> getSenpaiNames() {
@@ -167,6 +169,8 @@ public class WheelChan {
                 jda = JDABuilder.createDefault(Files.CONFIG.getFile().getString("Token"))
                 .addEventListeners(new CommandListener(), new SpawnPackListener(), new CardSpawnListener())
                 .setActivity(Activity.watching("Shoob spawn great cards!"))
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .build();
             } catch (Exception e) {
                 e.printStackTrace();
