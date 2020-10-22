@@ -28,7 +28,7 @@ public class WheelChan {
     private JDA jda;
     private List<Server> serverList = new ArrayList<>();
     private List<Senpai> senpais = new ArrayList<>();
-    private boolean testing = true;
+    private boolean testing = false;
     
     public static WheelChan getInstance() {
         return instance;
