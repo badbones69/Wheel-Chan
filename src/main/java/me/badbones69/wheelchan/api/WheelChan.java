@@ -7,9 +7,9 @@ import me.badbones69.wheelchan.api.objects.Server;
 import me.badbones69.wheelchan.listeners.CardSpawnListener;
 import me.badbones69.wheelchan.listeners.CommandListener;
 import me.badbones69.wheelchan.listeners.SpawnPackListener;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -26,7 +26,7 @@ public class WheelChan {
     private JDA jda;
     private List<Server> serverList = new ArrayList<>();
     private List<Senpai> senpais = new ArrayList<>();
-    private boolean testing = false;
+    private boolean testing = true;
     
     public static WheelChan getInstance() {
         return instance;
@@ -164,9 +164,10 @@ public class WheelChan {
     private void loadJDA() {
         if (jda == null) {
             try {
-                jda = new JDABuilder(AccountType.BOT)
-                .setToken(Files.CONFIG.getFile().getString("Token"))
-                .addEventListeners(new CommandListener(), new SpawnPackListener(), new CardSpawnListener()).build();
+                jda = JDABuilder.createDefault(Files.CONFIG.getFile().getString("Token"))
+                .addEventListeners(new CommandListener(), new SpawnPackListener(), new CardSpawnListener())
+                .setActivity(Activity.watching("Shoob spawn great cards!"))
+                .build();
             } catch (Exception e) {
                 e.printStackTrace();
             }

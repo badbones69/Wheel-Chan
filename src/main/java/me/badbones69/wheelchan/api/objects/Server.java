@@ -10,6 +10,7 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class Server {
@@ -30,7 +31,9 @@ public class Server {
         System.out.println(guild.getName() + ": " + guildID);
         FileConfiguration data = Files.DATA.getFile();
         data.getStringList(path + "Senseis").forEach(id -> senseis.add(new Sensei(id)));
-        System.out.println("Senseis: " + senseis.stream().map(sensei -> sensei.getUser().getName()).collect(Collectors.joining(", ")));
+        StringJoiner joiner = new StringJoiner(", ");
+        senseis.stream().map(sensei -> sensei != null && sensei.getUser() != null ? sensei.getUser().getName() : "User Not Found!").forEach(joiner :: add);
+        System.out.println("Senseis: " + joiner.toString());
         commandChannels.addAll(data.getStringList(path + "Command-Channels"));
         System.out.println("Command Channels: " + String.join(", ", commandChannels));
     }
