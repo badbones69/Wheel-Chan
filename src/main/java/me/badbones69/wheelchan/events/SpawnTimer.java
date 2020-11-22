@@ -14,7 +14,7 @@ public class SpawnTimer {
     
     private MessageChannel channel;
     private SpawnCard card;
-    private int timer = 20;
+    private int timer = 15;
     private Message message;
     
     public SpawnTimer(MessageChannel channel, SpawnCard card) {
