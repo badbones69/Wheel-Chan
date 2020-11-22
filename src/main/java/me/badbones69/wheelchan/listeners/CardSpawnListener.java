@@ -88,7 +88,7 @@ public class CardSpawnListener extends ListenerAdapter {
     }
     
     private boolean isDespawnMessage(String message) {
-        return message.contains("Looks like nobody got the card this time.");
+        return message.contains("Looks like no one got the card");
     }
     
 }
