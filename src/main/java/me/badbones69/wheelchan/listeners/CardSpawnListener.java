@@ -15,10 +15,11 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.time.Instant;
+import java.util.Objects;
 
 public class CardSpawnListener extends ListenerAdapter {
     
-    private WheelChan wheelChan = WheelChan.getInstance();
+    private final WheelChan wheelChan = WheelChan.getInstance();
     
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
@@ -39,7 +40,7 @@ public class CardSpawnListener extends ListenerAdapter {
             if (!message.getEmbeds().isEmpty()) {
                 MessageEmbed embed = message.getEmbeds().get(0);
                 //New card spawns
-                if (embed.getTitle() != null && isSpawnMessage(embed.getTitle())) {
+                if (embed.getTitle() != null && isSpawnMessage(Objects.requireNonNull(embed.getDescription()))){
                     if (SpawnPackListener.isSpawnPackMessage(message.getContentDisplay())) {
                         card = new SpawnCard(embed);
                         cardTracker.newSpawnpackCard(card);
@@ -70,7 +71,7 @@ public class CardSpawnListener extends ListenerAdapter {
                     }
                 }
                 //Card despawns
-            } else if (isDespawnMessage(message.getContentDisplay())) {
+            } else if (isDespawnMessage(Objects.requireNonNull(message.getEmbeds().get(0).getDescription()))) {
                 cardTracker.setSpawnCardClaim(false);
                 card = cardTracker.getLatestSpawnCard();
                 System.out.println(serverName + "Despawned: " + card);
@@ -80,11 +81,11 @@ public class CardSpawnListener extends ListenerAdapter {
     }
     
     private boolean isSpawnMessage(String message) {
-        return message.contains("Tier: ");
+        return message.contains("To claim, ");
     }
     
     public boolean isClaimedMessage(String message) {
-        return message.contains("got the card!");
+        return message.contains("got the");
     }
     
     private boolean isDespawnMessage(String message) {

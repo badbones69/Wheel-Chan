@@ -23,14 +23,13 @@ public class SpawnCard {
     }
     
     public SpawnCard(MessageEmbed embed) {
-        String[] split = embed.getTitle().split(" Tier: ");
-        tier = Integer.parseInt(split[1]);
-        characterName = split[0];
+        tier = Integer.parseInt(trimURL(embed.getImage().getUrl()));
+        characterName = embed.getTitle();
         spawnTime = Calendar.getInstance();
         claimed = false;
         cardURL = embed.getImage().getProxyUrl();
     }
-    
+
     public SpawnCard(String convertString) {
         String[] split = convertString.split(", ");
         for (String option : split) {
@@ -49,7 +48,6 @@ public class SpawnCard {
                     spawnTime.setTimeInMillis(Long.parseLong(option.replace("spawn-time:", "")));
             }
         }
-        System.out.println(toString());
     }
     
     public int getTier() {
@@ -79,6 +77,10 @@ public class SpawnCard {
     @Override
     public String toString() {
         return "name:" + characterName + ", tier:" + tier + ", claimed:" + claimed + ", spawn-time:" + spawnTime.getTimeInMillis();
+    }
+
+    private String trimURL(String cardURL){
+        return cardURL.replace("https://cdn.animesoul.com/images/cards/", "").substring(0, 1);
     }
     
 }

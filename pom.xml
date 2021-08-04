@@ -10,6 +10,11 @@
 
     <repositories>
         <repository>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
+        </repository>
+        <repository>
             <id>jcenter</id>
             <name>jcenter-bintray</name>
             <url>https://jcenter.bintray.com</url>
@@ -24,7 +29,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.0_209</version>
+            <version>4.3.0_304</version>
             <exclusions>
                 <exclusion>
                     <groupId>club.minnced</groupId>
@@ -36,7 +41,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId> <!-- Added this to disble the start errors -->
-            <version>1.7.26</version>
+            <version>1.7.32</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -79,7 +84,7 @@
                 <version>3.2.1</version>
                 <configuration>
                     <!-- This is for moving the jar out of the target folder. -->
-                    <outputFile>${build.outputDirectory}/../../Wheel-Chan.jar</outputFile>
+                    <outputFile>${project.build.outputDirectory}/../../Wheel-Chan.jar</outputFile>
                     <artifactSet>
                         <includes>
                             <include>*</include>
